@@ -1,0 +1,44 @@
+﻿
+> remu-website@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.2.7 (Turbopack)
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 32.3s
+  Running TypeScript ...
+  Finished TypeScript in 16.2s ...
+  Collecting page data using 3 workers ...
+  Generating static pages using 3 workers (0/6) ...
+node.exe : ΓÜá Unsupported metadata viewport is configured in metadata export in /company. Please move it to viewport 
+export instead.
+At line:1 char:1
++ & "C:\Program Files\nodejs\New Folder/node.exe" "C:\Program Files\nod ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (ΓÜá Unsupported...export instead.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export 
+instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /reunexus. Please move it to viewport export 
+instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+  Generating static pages using 3 workers (1/6) 
+  Generating static pages using 3 workers (2/6) 
+  Generating static pages using 3 workers (4/6) 
+Γ£ô Generating static pages using 3 workers (6/6) in 1303ms
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ Γùï /company
+Γöö Γùï /reunexus
+
+
+Γùï  (Static)  prerendered as static content
+
