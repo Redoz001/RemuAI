@@ -76,7 +76,7 @@ export default function RootLayout({
               href="/reunexus"
               className="bg-white text-black px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-200 transition"
             >
-              Launch ReuNexus
+              Explore ReuNexus
             </Link>
 
           </div>

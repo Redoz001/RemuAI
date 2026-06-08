@@ -53,7 +53,7 @@ export default function Home() {
            onClick={launchReuNexus}
            className="px-6 py-3 bg-violet-600 rounded-xl"
      >
-          Explore ReuNexus
+          Launch ReuNexus
          </button>
        </div>
         
