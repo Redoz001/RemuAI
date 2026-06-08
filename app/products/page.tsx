@@ -6,8 +6,9 @@ export default function ProductsPage() {
 
       {/* HERO */}
       <div className="max-w-4xl mx-auto text-center">
-        <p className="text-sm text-green-400 tracking-widest uppercase">
-          Live Product
+
+        <p className="text-sm text-violet-400 tracking-widest uppercase">
+          Flagship Platform
         </p>
 
         <h1 className="text-5xl md:text-7xl font-bold mt-4">
@@ -15,65 +16,45 @@ export default function ProductsPage() {
         </h1>
 
         <p className="text-gray-400 mt-6 text-lg md:text-xl leading-relaxed">
-          A production-ready AI workspace already deployed with authentication,
-          cloud infrastructure, and real-time AI capabilities.
+          A unified AI workspace designed to build, manage, and deploy
+          intelligent systems in one seamless environment.
         </p>
 
+        {/* CTA */}
         <div className="mt-10 flex justify-center gap-4 flex-wrap">
 
-          {/* MAIN APP ENTRY */}
           <Link
-            href="/login"
+            href="https://reunexus.space"
             className="bg-white text-black px-6 py-3 rounded-xl font-medium hover:bg-gray-200 transition"
           >
-            Open ReuNexus
+            Launch ReuNexus
           </Link>
 
           <Link
             href="/technology"
             className="border border-white/20 px-6 py-3 rounded-xl hover:border-violet-500/50 hover:bg-violet-500/10 transition"
           >
-            View Architecture
+            Explore Technology
           </Link>
 
         </div>
       </div>
 
-      {/* STATUS STRIP */}
-      <div className="max-w-4xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-
-        <div className="p-4 border border-white/10 rounded-xl bg-white/5">
-          <p className="text-green-400 font-semibold">LIVE</p>
-          <p className="text-gray-400 text-sm mt-1">Production Deployment</p>
-        </div>
-
-        <div className="p-4 border border-white/10 rounded-xl bg-white/5">
-          <p className="text-blue-400 font-semibold">SUPABASE</p>
-          <p className="text-gray-400 text-sm mt-1">Auth + Database Layer</p>
-        </div>
-
-        <div className="p-4 border border-white/10 rounded-xl bg-white/5">
-          <p className="text-purple-400 font-semibold">VERCEL</p>
-          <p className="text-gray-400 text-sm mt-1">Cloud Deployment</p>
-        </div>
-
-      </div>
-
-      {/* FEATURES */}
+      {/* FEATURE GRID */}
       <div className="max-w-6xl mx-auto mt-24 grid md:grid-cols-3 gap-6">
 
         {[
           {
-            title: "Secure Authentication",
-            desc: "Built with Supabase Auth for real user sessions and access control.",
+            title: "AI Workspace",
+            desc: "A unified environment to design and manage intelligent workflows.",
           },
           {
-            title: "AI Workspace Engine",
-            desc: "Real-time AI interaction layer powering intelligent workflows.",
+            title: "Smart Automation",
+            desc: "Build systems that think, respond, and execute tasks automatically.",
           },
           {
-            title: "Scalable Cloud Deploy",
-            desc: "Hosted on Vercel with optimized performance and edge delivery.",
+            title: "Scalable Architecture",
+            desc: "Designed for performance, flexibility, and future expansion.",
           },
         ].map((f, i) => (
           <div
@@ -89,37 +70,37 @@ export default function ProductsPage() {
 
       </div>
 
-      {/* TECH TRUST SECTION */}
+      {/* BRAND STATEMENT */}
       <div className="max-w-4xl mx-auto mt-24 text-center">
 
         <h2 className="text-3xl font-bold">
-          Production-Grade AI Infrastructure
+          Built for the next generation of AI systems
         </h2>
 
         <p className="text-gray-400 mt-6 leading-relaxed">
-          ReuNexus is not a prototype. It is already deployed with real users,
-          authentication flow, database integration, and scalable cloud hosting.
-          Built as the foundation of RemuAI’s ecosystem.
+          ReuNexus is engineered to simplify how intelligent systems are built and
+          deployed. It brings everything into one place so creators can focus on
+          building, not infrastructure.
         </p>
 
       </div>
 
-      {/* CTA */}
+      {/* FINAL CTA */}
       <div className="max-w-4xl mx-auto mt-24 text-center">
 
         <h3 className="text-2xl font-semibold">
-          Continue inside ReuNexus
+          Start using ReuNexus today
         </h3>
 
         <p className="text-gray-400 mt-2">
-          Access your AI workspace and start building.
+          Experience the future of AI development.
         </p>
 
         <Link
-          href="/login"
+          href="https://reunexus.space"
           className="inline-block mt-6 bg-white text-black px-6 py-3 rounded-xl font-medium hover:bg-gray-200 transition"
         >
-          Launch App
+          Go to Platform
         </Link>
 
       </div>
