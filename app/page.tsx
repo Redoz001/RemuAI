@@ -11,11 +11,12 @@ import { PricingToggle } from "./components/PricingToggle";
 import { PricingCard } from "./components/PricingCard";
 import { useRouter } from "next/navigation";
 
-
 export default function Home() {
   const router = useRouter();
 
-  const launchReuNexus = () => {
+  const [activeTab, setActiveTab] = useState("dashboard");
+
+  const LaunchReuNexus = () => {
     window.open("https://reunexus.space", "_blank");
   };
 
@@ -50,7 +51,7 @@ export default function Home() {
    
         <div className="p-10">
          <button
-           onClick={launchReuNexus}
+           onClick={LaunchReuNexus}
            className="px-6 py-3 bg-violet-600 rounded-xl"
      >
           Launch ReuNexus
@@ -605,104 +606,192 @@ export default function Home() {
           <div className="grid lg:grid-cols-5 gap-8">
 
             {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="space-y-4">
+           <div className="lg:col-span-1">
+  <div className="space-y-4">
 
-             <a
-              href="https://reunexus.space"
-              className="block p-4 rounded-xl bg-violet-600"
-             >
-               Dashboard
-             </a>
+    {[
+      "dashboard",
+      "chat",
+      "agents",
+      "workflows",
+      "models",
+      "analytics",
+    ].map((tab) => (
+      <button
+        key={tab}
+        onClick={() => setActiveTab(tab)}
+        className={`w-full text-left p-4 rounded-xl transition ${
+          activeTab === tab
+            ? "bg-violet-600"
+            : "bg-black/30 hover:bg-black/50"
+        }`}
+      >
+        {tab === "dashboard" && "Dashboard"}
+        {tab === "chat" && "AI Chat"}
+        {tab === "agents" && "Agents"}
+        {tab === "workflows" && "Workflows"}
+        {tab === "models" && "Models"}
+        {tab === "analytics" && "Analytics"}
+      </button>
+    ))}
 
-                <div className="p-4 rounded-xl bg-black/30">
-                  AI Chat
-                </div>
-
-                <div className="p-4 rounded-xl bg-black/30">
-                  Agents
-                </div>
-
-                <div className="p-4 rounded-xl bg-black/30">
-                  Workflows
-                </div>
-
-                <div className="p-4 rounded-xl bg-black/30">
-                  Models
-                </div>
-
-                <div className="p-4 rounded-xl bg-black/30">
-                  Analytics
-                </div>
-
-              </div>
-            </div>
+  </div>
+</div> 
 
             {/* Main Content */}
-            <div className="lg:col-span-4">
+           <div className="lg:col-span-4">
 
-              <div className="grid md:grid-cols-3 gap-6 mb-8">
+  {activeTab === "dashboard" && (
+    <div className="grid md:grid-cols-3 gap-6">
 
-                <div className="rounded-2xl bg-black/30 p-6">
-                  <div className="text-gray-400 text-sm">
-                    Total Requests
-                  </div>
-
-                  <div className="text-4xl font-bold mt-2">
-                    1.2M
-                  </div>
-                </div>
-
-                <div className="rounded-2xl bg-black/30 p-6">
-                  <div className="text-gray-400 text-sm">
-                    Active Agents
-                  </div>
-
-                  <div className="text-4xl font-bold mt-2">
-                    124
-                  </div>
-                </div>
-
-                <div className="rounded-2xl bg-black/30 p-6">
-                  <div className="text-gray-400 text-sm">
-                    Workflows
-                  </div>
-
-                  <div className="text-4xl font-bold mt-2">
-                    48
-                  </div>
-                </div>
-
-              </div>
-
-              <div className="rounded-3xl bg-black/40 p-8">
-
-                <div className="mb-6 text-violet-400">
-                  ReuNexus AI Assistant
-                </div>
-
-                <div className="space-y-4">
-
-                  <div className="ml-auto max-w-lg bg-violet-600 rounded-2xl p-4">
-                    Create a market analysis for an AI startup.
-                  </div>
-
-                  <div className="max-w-2xl bg-white/5 rounded-2xl p-4 border border-white/10">
-                    Market analysis generated.
-                    Industry trends, competitors,
-                    opportunities and strategic roadmap prepared.
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
+      <div className="rounded-2xl bg-black/30 p-6">
+        <div className="text-gray-400 text-sm">
+          Total Requests
         </div>
-      </section>
+        <div className="text-4xl font-bold mt-2">
+          1.2M
+        </div>
+      </div>
+
+      <div className="rounded-2xl bg-black/30 p-6">
+        <div className="text-gray-400 text-sm">
+          Active Agents
+        </div>
+        <div className="text-4xl font-bold mt-2">
+          124
+        </div>
+      </div>
+
+      <div className="rounded-2xl bg-black/30 p-6">
+        <div className="text-gray-400 text-sm">
+          Workflows
+        </div>
+        <div className="text-4xl font-bold mt-2">
+          48
+        </div>
+      </div>
+
+    </div>
+  )}
+
+  {activeTab === "chat" && (
+    <div className="rounded-3xl bg-black/40 p-8">
+      <div className="mb-6 text-violet-400">
+        ReuNexus AI Assistant
+      </div>
+
+      <div className="space-y-4">
+
+        <div className="ml-auto max-w-lg bg-violet-600 rounded-2xl p-4">
+          Create a market analysis for an AI startup.
+        </div>
+
+        <div className="max-w-2xl bg-white/5 rounded-2xl p-4 border border-white/10">
+          Market analysis generated.
+          Industry trends, competitors,
+          opportunities and strategic roadmap prepared.
+        </div>
+
+      </div>
+    </div>
+  )}
+
+  {activeTab === "agents" && (
+    <div className="grid md:grid-cols-2 gap-6">
+
+      <div className="rounded-2xl bg-black/30 p-6">
+        <h3 className="text-xl font-bold mb-2">
+          Research Agent
+        </h3>
+
+        <p className="text-gray-400">
+          Performs deep market and competitor analysis.
+        </p>
+      </div>
+
+      <div className="rounded-2xl bg-black/30 p-6">
+        <h3 className="text-xl font-bold mb-2">
+          Sales Agent
+        </h3>
+
+        <p className="text-gray-400">
+          Automates outreach and lead qualification.
+        </p>
+      </div>
+
+    </div>
+  )}
+
+  {activeTab === "workflows" && (
+    <div className="grid md:grid-cols-4 gap-4">
+
+      <div className="bg-black/30 p-6 rounded-2xl">
+        Input
+      </div>
+
+      <div className="bg-black/30 p-6 rounded-2xl">
+        AI Agent
+      </div>
+
+      <div className="bg-black/30 p-6 rounded-2xl">
+        Automation
+      </div>
+
+      <div className="bg-black/30 p-6 rounded-2xl">
+        Results
+      </div>
+
+    </div>
+  )}
+
+  {activeTab === "models" && (
+      <div className="grid md:grid-cols-3 gap-6">
+
+         <div className="rounded-2xl bg-black/30 p-6">
+          GPT-5
+        </div>
+
+       <div className="rounded-2xl bg-black/30 p-6">
+         Claude
+        </div>
+
+       <div className="rounded-2xl bg-black/30 p-6">
+         Gemini
+       </div>
+
+     </div>
+   )}
+
+   {activeTab === "analytics" && (
+   <div className="rounded-3xl bg-black/30 p-8">
+
+       <h3 className="text-3xl font-bold mb-6">
+         Usage Analytics
+       </h3>
+
+       <div className="h-64 rounded-2xl border border-white/10 bg-gradient-to-r from-violet-600/20 to-blue-600/20 flex items-center justify-center">
+         Analytics Preview
+       </div>
+
+     </div>
+   )}
+
+     <div className="mt-10 text-center">
+    <a
+      href="/auth"
+      className="inline-flex px-8 py-4 bg-violet-600 rounded-2xl font-semibold hover:bg-violet-500 transition"
+    >
+      Launch ReuNexus
+    </a>
+  </div>
+
+</div> {/* Main Content */}
+
+</div> {/* Grid */}
+
+</div> {/* Showcase Container */}
+
+</section>
 
       {/* Workflow Section */}
       <section className="max-w-7xl mx-auto px-8 py-20">
