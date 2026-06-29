@@ -15,6 +15,7 @@ import {
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {AnimatedCard} from "./components/AnimatedCard";
+import {TestimonialCarousel} from "./components/TestimonialCarousel";
 import { AnimatedButton } from "./components/AnimatedButton";
 import { PricingToggle } from "./components/PricingToggle";
 import { PricingCard } from "./components/PricingCard";
