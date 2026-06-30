@@ -50,7 +50,7 @@ const navLinks = [
   { label: "FAQ", href: "#faq" },
 ];
 
-const [projectModalOpen, setProjectModalOpen] = useState(false);
+
 const heroCapabilities = [
   {
     title: "AI Solutions",
@@ -106,6 +106,7 @@ const cardFade = {
 };
 
 export default function Home() {
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const StartProject = () => {
