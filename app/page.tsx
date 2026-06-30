@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
+import { fadeIn } from "./lib/animations";
 import { AnimatePresence, motion } from "framer-motion";
 
 import AnimatedButton from "./components/AnimatedButton";
@@ -86,16 +87,6 @@ const trustSignals = [
   "Cloud-Ready Architecture",
   "Long-Term Technical Support",
 ];
-
-const fadeIn = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: {
-    duration: 0.7,
-    ease: "easeOut",
-  },
-};
 
 const staggerContainer = {
   initial: {},
