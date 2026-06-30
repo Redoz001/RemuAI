@@ -24,6 +24,7 @@ import { fadeIn } from "./lib/animations";
 import { AnimatePresence, motion } from "framer-motion";
 
 import AnimatedButton from "./components/AnimatedButton";
+import ProjectInquiryModal from "./components/ProjectInquiryModal";
 import ServiceCard from "./components/ServiceCard";
 import AnimatedCard from "./components/AnimatedCard";
 import FAQAccordion from "./components/FAQAccordion";
@@ -36,7 +37,7 @@ const COMPANY = {
   description:
     "RemuAI is an AI and technology company helping businesses build intelligent software, automation systems, cloud-ready platforms, and digital products designed for long-term growth.",
   phone: "+971 56 467 3090",
-  email: "contact@remuai.com",
+  email: "contact@remuai.space",
   reunexusUrl: "https://reunexus.space",
 };
 
@@ -49,6 +50,7 @@ const navLinks = [
   { label: "FAQ", href: "#faq" },
 ];
 
+const [projectModalOpen, setProjectModalOpen] = useState(false);
 const heroCapabilities = [
   {
     title: "AI Solutions",
@@ -107,14 +109,15 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const StartProject = () => {
-    window.location.href = `mailto:${COMPANY.email}?subject=Start a Project with RemuAI`;
-  };
+  setProjectModalOpen(true);
+};
 
   const LaunchReuNexus = () => {
     window.open(COMPANY.reunexusUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
+    
     <main
       id="home"
       className="relative min-h-screen overflow-hidden bg-black text-white"
@@ -132,7 +135,7 @@ export default function Home() {
     className="absolute inset-0 h-full w-full object-cover object-center opacity-75"
   />
 
-  <div className="absolute inset-0 bg-black/20" />
+  <div className="absolute inset-0 bg-black/25" />
 
   <div className="absolute inset-0 grid-bg opacity-15" />
 
@@ -1577,7 +1580,10 @@ export default function Home() {
 
   </div>
 </footer>
-
+  <ProjectInquiryModal
+  open={projectModalOpen}
+  onClose={() => setProjectModalOpen(false)}
+/>
     </main>
   );
 }
