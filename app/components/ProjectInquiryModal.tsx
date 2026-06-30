@@ -119,8 +119,8 @@ export default function ProjectInquiryModal({
 
                 <select name="budget" className="rounded-xl border border-white/10 bg-black px-4 py-3 outline-none focus:border-violet-500">
                   <option value="">Project budget</option>
-                  <option>Under $500</option>
-                  <option>$500 - $2,000</option>
+                  <option>Under $1000</option>
+                  <option>$1000 - $2,000</option>
                   <option>$2,000 - $10,000</option>
                   <option>$10,000+</option>
                 </select>
