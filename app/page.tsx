@@ -24,6 +24,7 @@ import { fadeIn } from "./lib/animations";
 import { AnimatePresence, motion } from "framer-motion";
 
 import AnimatedButton from "./components/AnimatedButton";
+import ServiceCard from "./components/ServiceCard";
 import AnimatedCard from "./components/AnimatedCard";
 import FAQAccordion from "./components/FAQAccordion";
 import WhyChooseRemuAI from "./components/WhyChooseRemuAI";
