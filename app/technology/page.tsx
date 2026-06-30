@@ -7,22 +7,30 @@ const fadeUp = {
   show: { opacity: 1, y: 0 },
 };
 
-const systems = [
+const technologies = [
   {
-    title: "Memory Engine",
-    desc: "Stores user context, preferences, and long-term interactions to create personalized AI behavior.",
+    title: "Artificial Intelligence",
+    desc: "Custom AI chatbots, intelligent assistants, automation, and AI-powered business solutions tailored to your organization.",
   },
   {
-    title: "Agent Orchestrator",
-    desc: "Breaks tasks into sub-agents that collaborate to produce higher-quality results.",
+    title: "Web Development",
+    desc: "Modern websites, dashboards, portals, and responsive web applications built using scalable technologies.",
   },
   {
-    title: "AI Router",
-    desc: "Chooses the best model dynamically based on speed, cost, and reasoning needs.",
+    title: "Cloud & Infrastructure",
+    desc: "Secure deployments, cloud hosting, authentication, APIs, databases, and scalable backend architecture.",
   },
   {
-    title: "Knowledge Graph",
-    desc: "Connects all data into structured relationships for deeper reasoning.",
+    title: "Business Automation",
+    desc: "Automate repetitive workflows, integrate business systems, and improve operational efficiency using AI.",
+  },
+  {
+    title: "Custom Software",
+    desc: "Every solution is designed specifically around your business processes rather than using one-size-fits-all software.",
+  },
+  {
+    title: "Research & Innovation",
+    desc: "We continuously research emerging AI technologies including intelligent agents, memory systems, reasoning, and future platform capabilities.",
   },
 ];
 
@@ -39,58 +47,118 @@ export default function TechnologyPage() {
         className="max-w-6xl mx-auto text-center"
       >
         <h1 className="text-6xl md:text-7xl font-bold">
-          RemuAI Technology
+          Technology & Innovation
         </h1>
 
-        <p className="text-gray-400 mt-6 text-lg md:text-xl max-w-3xl mx-auto">
-          A modular intelligence system built with memory, agents, routing, and structured reasoning.
+        <p className="text-gray-400 mt-6 text-lg md:text-xl max-w-4xl mx-auto leading-8">
+          RemuAI is a technology company focused on building intelligent digital
+          solutions for businesses. From modern websites and web applications to
+          AI chatbots, automation systems, and custom software, we combine
+          cutting-edge technologies with practical business solutions to help
+          organizations grow.
         </p>
       </motion.section>
 
-      {/* SYSTEMS */}
-      <section className="max-w-6xl mx-auto mt-20 grid md:grid-cols-2 gap-6">
-        {systems.map((s, i) => (
+      {/* TECHNOLOGY GRID */}
+      <section className="max-w-6xl mx-auto mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {technologies.map((tech, index) => (
           <motion.div
-            key={i}
+            key={index}
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md hover:border-violet-500/40 transition"
+            transition={{ delay: index * 0.08 }}
+            className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-8 hover:border-violet-500/40 transition-all"
           >
-            <h2 className="text-2xl font-semibold mb-3">
-              {s.title}
+            <h2 className="text-2xl font-semibold mb-4">
+              {tech.title}
             </h2>
-            <p className="text-gray-400">
-              {s.desc}
+
+            <p className="text-gray-400 leading-7">
+              {tech.desc}
             </p>
           </motion.div>
         ))}
       </section>
 
-      {/* ARCHITECTURE FLOW */}
+      {/* DEVELOPMENT PROCESS */}
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className="max-w-4xl mx-auto mt-28 text-center"
+        className="max-w-5xl mx-auto mt-28 text-center"
       >
-        <h2 className="text-3xl font-bold mb-10">
-          System Architecture
+        <h2 className="text-4xl font-bold mb-12">
+          How We Build
         </h2>
 
-        <div className="space-y-3 text-lg text-gray-300">
-          <p>User Input</p>
-          <p>↓</p>
-          <p className="text-violet-400">AI Router</p>
-          <p>↓</p>
-          <p className="text-violet-400">Agent Orchestrator</p>
-          <p>↓</p>
-          <p className="text-violet-400">Memory Engine</p>
-          <p>↓</p>
-          <p className="text-violet-400">Knowledge Graph</p>
-          <p>↓</p>
-          <p>Final Output</p>
+        <div className="grid md:grid-cols-5 gap-6 text-center">
+
+          <div>
+            <div className="text-5xl mb-3">💡</div>
+            <h3 className="font-semibold">Discovery</h3>
+            <p className="text-gray-400 text-sm mt-2">
+              Understanding your goals and business needs.
+            </p>
+          </div>
+
+          <div>
+            <div className="text-5xl mb-3">📐</div>
+            <h3 className="font-semibold">Planning</h3>
+            <p className="text-gray-400 text-sm mt-2">
+              Designing the best technical solution.
+            </p>
+          </div>
+
+          <div>
+            <div className="text-5xl mb-3">⚙️</div>
+            <h3 className="font-semibold">Development</h3>
+            <p className="text-gray-400 text-sm mt-2">
+              Building secure, scalable software.
+            </p>
+          </div>
+
+          <div>
+            <div className="text-5xl mb-3">🧪</div>
+            <h3 className="font-semibold">Testing</h3>
+            <p className="text-gray-400 text-sm mt-2">
+              Ensuring quality, performance, and reliability.
+            </p>
+          </div>
+
+          <div>
+            <div className="text-5xl mb-3">🚀</div>
+            <h3 className="font-semibold">Launch</h3>
+            <p className="text-gray-400 text-sm mt-2">
+              Deployment with ongoing support and improvements.
+            </p>
+          </div>
+
+        </div>
+      </motion.section>
+
+      {/* VISION */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className="max-w-4xl mx-auto mt-32"
+      >
+        <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-900/20 to-black p-10">
+
+          <h2 className="text-4xl font-bold mb-6 text-center">
+            Our Vision
+          </h2>
+
+          <p className="text-gray-300 leading-8 text-center">
+            We believe every business should have access to intelligent technology.
+            Our mission is to help organizations adopt AI, modern software, and
+            automation through reliable, scalable, and innovative digital
+            solutions. As RemuAI evolves, we will continue expanding our platform
+            with advanced AI capabilities, intelligent products, and next-generation
+            business tools.
+          </p>
+
         </div>
       </motion.section>
 
@@ -99,18 +167,20 @@ export default function TechnologyPage() {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-center mt-32"
+        className="text-center mt-28"
       >
-        <h2 className="text-4xl font-bold">
-          Build with RemuAI Infrastructure
+        <h2 className="text-5xl font-bold">
+          Let's Build Something Extraordinary
         </h2>
 
-        <p className="text-gray-400 mt-4">
-          From chatbot → real AI system.
+        <p className="text-gray-400 mt-6 max-w-2xl mx-auto">
+          Whether you need a professional website, a custom web application,
+          an AI chatbot, business automation, or an intelligent software
+          solution, RemuAI is ready to help bring your vision to life.
         </p>
 
-        <button className="mt-8 px-8 py-4 bg-violet-600 hover:bg-violet-500 rounded-lg font-semibold transition">
-          Get Started
+        <button className="mt-10 px-10 py-4 rounded-xl bg-violet-600 hover:bg-violet-500 transition font-semibold text-lg">
+          Start Your Project
         </button>
       </motion.section>
 

@@ -1,39 +1,44 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import type { ReactNode, HTMLAttributes } from "react";
 
-interface HeroMotionProps {
+interface HeroMotionProps extends HTMLAttributes<HTMLElement> {
   children: ReactNode;
+  className?: string;
+  delay?: number;
+  duration?: number;
+  y?: number;
+  x?: number;
+  as?: "section" | "div" | "header";
 }
-
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 40,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-  },
-};
 
 export default function HeroMotion({
   children,
+  className = "",
+  delay = 0,
+  duration = 0.8,
+  y = 40,
+  x = 0,
+  as = "section",
+  ...props
 }: HeroMotionProps) {
+  const MotionTag = motion[as];
+
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={fadeUp}
+    <MotionTag
+      initial={{ opacity: 0, y, x }}
+      whileInView={{ opacity: 1, y: 0, x: 0 }}
+      viewport={{ once: true, amount: 0.18 }}
       transition={{
-        duration: 0.8,
-        ease: "easeOut",
+        duration,
+        delay,
+        ease: [0.16, 1, 0.3, 1],
       }}
-      className="relative overflow-hidden"
+      className={`relative ${className}`}
+      {...props}
     >
       {children}
-    </motion.section>
+    </MotionTag>
   );
 }

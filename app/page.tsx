@@ -18,7 +18,7 @@ import {AnimatedCard} from "./components/AnimatedCard";
 import {TestimonialCarousel} from "./components/TestimonialCarousel";
 import { AnimatedButton } from "./components/AnimatedButton";
 import { PricingToggle } from "./components/PricingToggle";
-import { PricingCard } from "./components/PricingCard";
+import { ServiceCard } from "./components/ServiceCard";
 import FAQAccordion from "./components/FAQAccordion";
 import SocialProof from "./components/SocialProof";
 
@@ -1698,13 +1698,11 @@ export default function Home() {
 
             Built To Earn Trust
 
-        </h2>
+                </h2>
 
         <p className="mt-6 text-lg text-gray-400">
-
-            Every successful partnership begins
-            with understanding your business.
-
+          Every successful digital product begins with understanding
+          your goals, your users and your business.
         </p>
 
     </motion.div>
@@ -1742,10 +1740,12 @@ Or Custom Software?
 
 <p className="mt-8 text-gray-400 text-lg leading-8">
 
-We help startups,
-businesses and organizations
-transform ideas into modern
-digital products.
+Whether you're launching a new business,
+modernizing an existing one, or integrating AI into
+your operations, RemuAI designs and builds
+professional websites, scalable web applications,
+AI chatbots, automation systems and custom software
+tailored to your goals.
 
 </p>
 
@@ -1771,29 +1771,45 @@ digital products.
 
 </div>
 
+<div className="mt-8 rounded-2xl border border-violet-500/20 bg-violet-500/10 p-5">
+
+<p className="text-violet-300 font-semibold">
+✓ Free consultation
+</p>
+
+<p className="text-violet-300 font-semibold">
+✓ Project proposal within 48 hours
+</p>
+
+<p className="text-violet-300 font-semibold">
+✓ No-obligation quotation
+</p>
+
+</div>
+
 </div>
 
 <div className="rounded-3xl bg-black/30 border border-white/10 p-10">
 
 <h3 className="text-3xl font-bold">
 
-Why Contact Us?
+Why Work With RemuAI?
 
 </h3>
 
 <ul className="space-y-5 mt-8 text-gray-300">
 
-<li>✔ Professional Websites</li>
+<li>✔ Modern business websites</li>
 
-<li>✔ AI Chatbots</li>
+<li>✔ Custom web applications</li>
 
-<li>✔ Business Automation</li>
+<li>✔ AI chatbots powered by leading AI models</li>
 
-<li>✔ Web Applications</li>
+<li>✔ Business workflow automation</li>
 
-<li>✔ Custom AI Systems</li>
+<li>✔ API integrations & cloud solutions</li>
 
-<li>✔ Ongoing Technical Support</li>
+<li>✔ Long-term maintenance & technical support</li>
 
 </ul>
 
@@ -1818,81 +1834,90 @@ Start Your Project
 
 <section className="max-w-7xl mx-auto px-6 lg:px-8 py-32">
 
-  <div className="rounded-[48px] border border-violet-500/20 bg-gradient-to-br from-violet-600/20 via-violet-500/10 to-transparent p-16 text-center">
+<div className="rounded-[48px] border border-violet-500/20 bg-gradient-to-br from-violet-600/20 via-violet-500/10 to-transparent p-16 text-center">
 
-    <motion.h2
-      {...fadeIn}
-      className="text-4xl md:text-6xl font-black leading-tight"
-    >
-      Ready To Build Something Amazing?
-    </motion.h2>
+<motion.h2
+{...fadeIn}
+className="text-4xl md:text-6xl font-black leading-tight"
+>
 
-    <motion.p
-      {...fadeIn}
-      className="mt-8 max-w-3xl mx-auto text-xl text-gray-300 leading-8"
-    >
-      Whether you need a professional website,
-      a custom web application, an AI chatbot,
-      business automation or a complete AI solution,
-      RemuAI is ready to help bring your vision to life.
-    </motion.p>
+Ready To Build Your Next Digital Product?
 
-    <div className="flex flex-wrap justify-center gap-5 mt-12">
+</motion.h2>
 
-      <button
-        onClick={StartProject}
-        className="px-10 py-5 rounded-2xl bg-violet-600 hover:bg-violet-500 transition font-semibold"
-      >
-        Start Your Project
-      </button>
+<motion.p
+{...fadeIn}
+className="mt-8 max-w-3xl mx-auto text-xl text-gray-300 leading-8"
+>
 
-      <button
-        onClick={LaunchReuNexus}
-        className="px-10 py-5 rounded-2xl border border-white/10 hover:border-violet-500 transition"
-      >
-        Explore ReuNexus
-      </button>
+Whether you're starting with an idea or improving an
+existing solution, RemuAI helps businesses design,
+build and deploy websites, web applications,
+AI chatbots, automation systems and custom software
+that deliver real business value.
 
-    </div>
+</motion.p>
 
-  </div>
+<div className="flex flex-wrap justify-center gap-5 mt-12">
+
+<button
+onClick={StartProject}
+className="px-10 py-5 rounded-2xl bg-violet-600 hover:bg-violet-500 transition font-semibold"
+>
+
+Start Your Project
+
+</button>
+
+<button
+onClick={LaunchReuNexus}
+className="px-10 py-5 rounded-2xl border border-white/10 hover:border-violet-500 transition"
+>
+
+Explore ReuNexus
+
+</button>
+
+</div>
+
+</div>
 
 </section>
 
 {/* ================= FAQ ================= */}
 
 <section
-  id="faq"
-  className="max-w-5xl mx-auto px-6 lg:px-8 pb-32"
+id="faq"
+className="max-w-5xl mx-auto px-6 lg:px-8 pb-32"
 >
 
-  <motion.div
-    {...fadeIn}
-    className="text-center mb-20"
-  >
+<motion.div
+{...fadeIn}
+className="text-center mb-20"
+>
 
-    <span className="uppercase tracking-[0.25em] text-violet-400">
+<span className="uppercase tracking-[0.25em] text-violet-400">
 
-      Frequently Asked Questions
+Frequently Asked Questions
 
-    </span>
+</span>
 
-    <h2 className="text-4xl md:text-5xl font-black mt-5">
+<h2 className="text-4xl md:text-5xl font-black mt-5">
 
-      Questions? We've Got Answers.
+Questions? We've Got Answers.
 
-    </h2>
+</h2>
 
-    <p className="mt-6 text-lg text-gray-400">
+<p className="mt-6 text-lg text-gray-400">
 
-      Everything you need to know before
-      working with RemuAI.
+Everything you need to know before
+working with RemuAI.
 
-    </p>
+</p>
 
-  </motion.div>
+</motion.div>
 
-  <FAQAccordion />
+<FAQAccordion />
 
 </section>
 
@@ -1900,144 +1925,162 @@ Start Your Project
 
 <footer className="border-t border-white/10 bg-black">
 
-  <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+<div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
 
-    <div className="grid lg:grid-cols-4 gap-12">
+<div className="grid lg:grid-cols-4 gap-12">
 
-      {/* Brand */}
+{/* Brand */}
 
-      <div>
+<div>
 
-        <h2 className="text-4xl font-black">
+<h2 className="text-4xl font-black">
 
-          Remu<span className="text-violet-500">AI</span>
+Remu<span className="text-violet-500">AI</span>
 
-        </h2>
+</h2>
 
-        <p className="mt-6 text-gray-400 leading-8">
+<p className="mt-6 text-gray-400 leading-8">
 
-          Building intelligent software that helps
-          businesses grow through AI, automation
-          and modern web technologies.
+RemuAI builds professional websites,
+scalable web applications, AI chatbots,
+automation systems and custom software
+for businesses looking to innovate and grow.
 
-        </p>
+</p>
 
-      </div>
+</div>
 
-      {/* Services */}
+{/* Services */}
 
-      <div>
+<div>
 
-        <h3 className="font-bold text-xl mb-6">
+<h3 className="font-bold text-xl mb-6">
 
-          Services
+Services
 
-        </h3>
+</h3>
 
-        <div className="space-y-3 text-gray-400">
+<div className="space-y-3 text-gray-400">
 
-          <p>Professional Websites</p>
-          <p>Web Applications</p>
-          <p>AI Chatbots</p>
-          <p>Business Automation</p>
-          <p>Custom AI Solutions</p>
+<p>Professional Websites</p>
+<p>Web Applications</p>
+<p>AI Chatbots</p>
+<p>Business Automation</p>
+<p>Custom Software Development</p>
 
-        </div>
+</div>
 
-      </div>
+</div>
 
-      {/* Products */}
+{/* Products */}
 
-      <div>
+<div>
 
-        <h3 className="font-bold text-xl mb-6">
+<h3 className="font-bold text-xl mb-6">
 
-          Products
+Products
 
-        </h3>
+</h3>
 
-        <div className="space-y-3 text-gray-400">
+<div className="space-y-3 text-gray-400">
 
-          <button
-            onClick={LaunchReuNexus}
-            className="hover:text-white transition"
-          >
-            ReuNexus
-          </button>
+<button
+onClick={LaunchReuNexus}
+className="hover:text-white transition"
+>
 
-          <p>AI Workspace</p>
-          <p>AI Agents</p>
-          <p>Automation Platform</p>
+ReuNexus
 
-        </div>
+</button>
 
-      </div>
+<p>AI Workspace</p>
+<p>AI Assistants</p>
+<p>Automation Platform</p>
 
-      {/* Contact */}
+</div>
 
-      <div>
+</div>
 
-        <h3 className="font-bold text-xl mb-6">
+{/* Contact */}
 
-          Contact
+<div>
 
-        </h3>
+<h3 className="font-bold text-xl mb-6">
 
-        <div className="space-y-4 text-gray-400">
+Contact
 
-          <p>📞 +971 564673090</p>
+</h3>
 
-          <p>✉️ contact@remuai.com</p>
+<div className="space-y-4 text-gray-400">
 
-          <button
-            onClick={LaunchReuNexus}
-            className="hover:text-white transition"
-          >
-            🌐 reunexus.space
-          </button>
+<p>📞 +971 564673090</p>
 
-          <p>
-            Available Monday – Saturday
-          </p>
+<p>✉️ contact@remuai.com</p>
 
-        </div>
+<button
+onClick={LaunchReuNexus}
+className="hover:text-white transition"
+>
 
-      </div>
+🌐 reunexus.space
 
-    </div>
+</button>
 
-    <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<p>Available Monday – Saturday</p>
 
-      <p className="text-gray-500 text-center">
+</div>
 
-        © {new Date().getFullYear()} RemuAI.
-        All rights reserved.
+</div>
 
-      </p>
+</div>
 
-      <div className="flex gap-8 text-gray-400">
+<div className="border-t border-white/10 mt-16 pt-8">
 
-        <a href="#features" className="hover:text-white">
-          Features
-        </a>
+<div className="text-center mb-8">
 
-        <a href="#services" className="hover:text-white">
-          Services
-        </a>
+<p className="text-gray-400">
 
-        <a href="#pricing" className="hover:text-white">
-          Pricing
-        </a>
+Helping businesses build modern digital experiences
+through web technologies, automation and artificial intelligence.
 
-        <a href="#faq" className="hover:text-white">
-          FAQ
-        </a>
+</p>
 
-      </div>
+</div>
 
-    </div>
+<div className="flex flex-col md:flex-row justify-between items-center gap-6">
 
-  </div>
+<p className="text-gray-500 text-center">
+
+© {new Date().getFullYear()} RemuAI.
+All rights reserved.
+
+</p>
+
+<div className="flex gap-8 text-gray-400">
+
+<a href="#features" className="hover:text-white">
+Features
+</a>
+
+<a href="#services" className="hover:text-white">
+Services
+</a>
+
+<a href="#pricing" className="hover:text-white">
+Pricing
+</a>
+
+<a href="#faq" className="hover:text-white">
+FAQ
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </footer>
 

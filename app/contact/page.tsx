@@ -1,11 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { Mail, Phone, Globe, Send } from "lucide-react";
 
 export default function ContactPage() {
   const [form, setForm] = useState({
     name: "",
+    company: "",
     email: "",
+    projectType: "",
+    budget: "",
     message: "",
   });
 
@@ -14,13 +18,19 @@ export default function ContactPage() {
   const [error, setError] = useState("");
 
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
     setLoading(true);
     setError("");
     setSuccess(false);
@@ -28,18 +38,28 @@ export default function ContactPage() {
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(form),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to send message");
+        throw new Error(data.error || "Unable to send your message.");
       }
 
       setSuccess(true);
-      setForm({ name: "", email: "", message: "" });
+
+      setForm({
+        name: "",
+        company: "",
+        email: "",
+        projectType: "",
+        budget: "",
+        message: "",
+      });
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -48,81 +68,198 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
-      <div className="w-full max-w-2xl">
+    <main className="min-h-screen bg-black text-white">
 
-        {/* HEADER */}
-        <h1 className="text-5xl font-bold text-center">
-          Contact RemuAI
-        </h1>
+      <section className="relative overflow-hidden py-28 px-6">
 
-        <p className="text-gray-400 text-center mt-3">
-          We respond within 24 hours. Let’s build something powerful.
-        </p>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#7c3aed30,transparent_65%)]" />
 
-        {/* FORM CARD */}
-        <form
-          onSubmit={handleSubmit}
-          className="mt-10 space-y-4 bg-white/5 border border-white/10 p-6 rounded-2xl backdrop-blur"
-        >
+        <div className="relative max-w-6xl mx-auto">
 
-          <input
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Your name"
-            required
-            className="w-full p-3 rounded-lg bg-black border border-white/10 focus:border-white/40 outline-none"
-          />
+          <div className="text-center mb-16">
 
-          <input
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Your email"
-            required
-            className="w-full p-3 rounded-lg bg-black border border-white/10 focus:border-white/40 outline-none"
-          />
+            <span className="uppercase tracking-[0.3em] text-violet-400 text-sm">
+              Contact Us
+            </span>
 
-          <textarea
-            name="message"
-            value={form.message}
-            onChange={handleChange}
-            placeholder="Your message..."
-            rows={6}
-            required
-            className="w-full p-3 rounded-lg bg-black border border-white/10 focus:border-white/40 outline-none"
-          />
+            <h1 className="text-6xl md:text-7xl font-bold mt-6">
+              Let's Build Something Amazing
+            </h1>
 
-          {/* STATUS */}
-          {error && (
-            <p className="text-red-400 text-sm">{error}</p>
-          )}
-
-          {success && (
-            <p className="text-green-400 text-sm">
-              Message sent successfully ✔
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto mt-6">
+              Whether you need a modern website, web application,
+              AI chatbot, automation platform or custom software,
+              we'd love to discuss your project.
             </p>
-          )}
 
-          {/* BUTTON */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition disabled:opacity-50"
-          >
-            {loading ? "Sending..." : "Send Message"}
-          </button>
-        </form>
+          </div>
 
-        {/* FOOTER INFO */}
-        <div className="text-center mt-8 text-gray-500 text-sm">
-          <p>support@remuai.com</p>
-          <p>Powered by RemuAI Infrastructure</p>
+          <div className="grid lg:grid-cols-3 gap-10">
+
+            {/* CONTACT INFO */}
+
+            <div className="space-y-6">
+
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+
+                <Mail className="text-violet-400 mb-4" />
+
+                <h3 className="font-bold text-xl">
+                  Email
+                </h3>
+
+                <p className="text-gray-400 mt-2">
+                  support@remuai.com
+                </p>
+
+              </div>
+
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+
+                <Globe className="text-violet-400 mb-4" />
+
+                <h3 className="font-bold text-xl">
+                  Services
+                </h3>
+
+                <ul className="text-gray-400 mt-3 space-y-2">
+                  <li>Website Development</li>
+                  <li>Web Applications</li>
+                  <li>AI Chatbots</li>
+                  <li>Business Automation</li>
+                  <li>Custom Software</li>
+                </ul>
+
+              </div>
+
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+
+                <Phone className="text-violet-400 mb-4" />
+
+                <h3 className="font-bold text-xl">
+                  Response Time
+                </h3>
+
+                <p className="text-gray-400 mt-2">
+                  We usually reply within one business day.
+                </p>
+
+              </div>
+
+            </div>
+
+            {/* FORM */}
+
+            <div className="lg:col-span-2">
+
+              <form
+                onSubmit={handleSubmit}
+                className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl space-y-6"
+              >
+
+                <div className="grid md:grid-cols-2 gap-6">
+
+                  <input
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Full Name"
+                    required
+                    className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                  />
+
+                  <input
+                    name="company"
+                    value={form.company}
+                    onChange={handleChange}
+                    placeholder="Company (Optional)"
+                    className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                  />
+
+                </div>
+
+                <input
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="Email Address"
+                  required
+                  className="w-full rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                />
+
+                <div className="grid md:grid-cols-2 gap-6">
+
+                  <select
+                    name="projectType"
+                    value={form.projectType}
+                    onChange={handleChange}
+                    className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                  >
+                    <option value="">Project Type</option>
+                    <option>Website</option>
+                    <option>Web Application</option>
+                    <option>AI Chatbot</option>
+                    <option>Business Automation</option>
+                    <option>Custom Software</option>
+                  </select>
+
+                  <select
+                    name="budget"
+                    value={form.budget}
+                    onChange={handleChange}
+                    className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                  >
+                    <option value="">Estimated Budget</option>
+                    <option>Under $1,000</option>
+                    <option>$1,000 - $5,000</option>
+                    <option>$5,000 - $10,000</option>
+                    <option>$10,000+</option>
+                  </select>
+
+                </div>
+
+                <textarea
+                  name="message"
+                  rows={7}
+                  value={form.message}
+                  onChange={handleChange}
+                  placeholder="Tell us about your project..."
+                  required
+                  className="w-full rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                />
+
+                {error && (
+                  <p className="text-red-400">
+                    {error}
+                  </p>
+                )}
+
+                {success && (
+                  <p className="text-green-400">
+                    Your message has been sent successfully. We'll get back to you soon.
+                  </p>
+                )}
+
+                <button
+                  disabled={loading}
+                  className="w-full bg-violet-600 hover:bg-violet-500 transition rounded-xl py-4 font-semibold flex justify-center items-center gap-3 disabled:opacity-60"
+                >
+                  <Send size={18} />
+
+                  {loading ? "Sending..." : "Send Message"}
+                </button>
+
+              </form>
+
+            </div>
+
+          </div>
+
         </div>
 
-      </div>
+      </section>
+
     </main>
   );
 }
