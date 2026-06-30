@@ -54,9 +54,10 @@ export default function ContactPage() {
     setLoading(false);
 
     if (error) {
-      setErrorMessage("Unable to submit your inquiry. Please try again.");
-      return;
-    }
+  console.error("Supabase insert error:", error);
+  setErrorMessage(error.message);
+  return;
+}
 
     setSuccess(true);
 
@@ -200,8 +201,8 @@ export default function ContactPage() {
                     className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
                   >
                     <option value="">Estimated Budget</option>
-                    <option>Under $500</option>
-                    <option>$500 - $2,000</option>
+                    <option>Under $1000</option>
+                    <option>$1000 - $2,000</option>
                     <option>$2,000 - $10,000</option>
                     <option>$10,000+</option>
                   </select>
