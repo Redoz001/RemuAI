@@ -122,33 +122,22 @@ export default function Home() {
 
         {/* ================= BACKGROUND SYSTEM ================= */}
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-0"
-      >
-        {/* Background image */}
-        <div
-  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-  style={{
-    backgroundImage: "url('/remuai-hero-bg.png')",
-    opacity: 0.35,
-  }}
-/>
+<div
+  aria-hidden="true"
+  className="pointer-events-none fixed inset-0 z-0"
+>
+  <img
+    src="/remuai-hero-bg.png"
+    alt=""
+    className="absolute inset-0 h-full w-full object-cover object-center opacity-75"
+  />
 
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/40" />
+  <div className="absolute inset-0 bg-black/20" />
 
-        {/* Aurora glow */}
-        <div className="absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-violet-600/25 blur-[140px]" />
-        <div className="absolute right-0 top-40 h-[420px] w-[420px] rounded-full bg-cyan-500/15 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-violet-500/20 blur-[130px]" />
+  <div className="absolute inset-0 grid-bg opacity-15" />
 
-        {/* Grid overlay */}
-        <div className="absolute inset-0 grid-bg opacity-30" />
-
-        {/* Subtle vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_75%)]" />
-      </div>
+  <div className="absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-violet-600/20 blur-[140px]" />
+</div>
 
       {/* Noise overlay */}
       <div className="noise" />
