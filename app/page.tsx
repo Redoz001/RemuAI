@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import {
   ArrowRight,
   Bot,
@@ -17,6 +15,8 @@ import {
   Rocket,
   ShieldCheck,
   Sparkles,
+  Workflow,
+  X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -1599,4 +1599,3 @@ export default function Home() {
 
     </main>
   );
-}
