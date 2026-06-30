@@ -54,8 +54,7 @@ export default function ContactPage() {
     setLoading(false);
 
     if (error) {
-  console.error("Supabase insert error:", error);
-  setErrorMessage(error.message);
+  setErrorMessage("Unable to submit your inquiry. Please try again.");
   return;
 }
 
