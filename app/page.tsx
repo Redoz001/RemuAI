@@ -128,17 +128,15 @@ export default function Home() {
       >
         {/* Background image */}
         <div
-  className="
-    absolute inset-0
-    bg-[url('/remuai-hero-bg.png')]
-    bg-cover
-    bg-center
-    opacity-35
-"
+  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+  style={{
+    backgroundImage: "url('/remuai-hero-bg.png')",
+    opacity: 0.35,
+  }}
 />
 
         {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/75" />
+        <div className="absolute inset-0 bg-black/40" />
 
         {/* Aurora glow */}
         <div className="absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-violet-600/25 blur-[140px]" />
