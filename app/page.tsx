@@ -124,7 +124,7 @@ export default function Home() {
     <main
       id="home"
       className="relative min-h-screen overflow-hidden bg-black text-white"
-    ></main>
+    >
 
         {/* ================= BACKGROUND SYSTEM ================= */}
 
