@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import type { ReactNode, HTMLAttributes } from 'react';
+import type { ReactNode } from 'react';
 
-interface AnimatedCardProps extends HTMLAttributes<HTMLDivElement> {
+interface AnimatedCardProps {
   children: ReactNode;
   className?: string;
   delay?: number;
@@ -17,18 +17,14 @@ export default function AnimatedCard({
   delay = 0,
   hover = true,
   variant = 'default',
-  ...props
 }: AnimatedCardProps) {
   const variants = {
     default:
       'border-white/10 bg-white/[0.04] hover:border-violet-500/40 hover:bg-white/[0.06]',
-
     highlight:
       'border-violet-500/30 bg-gradient-to-br from-violet-500/15 via-white/[0.04] to-transparent hover:border-violet-400/60',
-
     dark:
       'border-white/10 bg-black/40 hover:border-violet-500/40',
-
     glass:
       'border-white/10 bg-white/[0.05] backdrop-blur-xl hover:border-cyan-400/40',
   };
@@ -52,14 +48,13 @@ export default function AnimatedCard({
           : undefined
       }
       className={`
-        relative overflow-hidden rounded-3xl border
+        group relative overflow-hidden rounded-3xl border
         backdrop-blur-md
         transition-all duration-300
         hover:shadow-2xl hover:shadow-violet-600/10
         ${variants[variant]}
         ${className}
       `}
-      {...props}
     >
       <div
         aria-hidden="true"
@@ -70,7 +65,9 @@ export default function AnimatedCard({
         "
       />
 
-      {children}
+      <div className="relative">
+        {children}
+      </div>
     </motion.div>
   );
 }
