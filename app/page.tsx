@@ -1,565 +1,770 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import Link from "next/link";
 import {
-  Menu,
-  X,
-  Moon,
-  Sun,
-  ArrowUp,
-  Phone,
-  Globe,
+  ArrowRight,
   Bot,
+  BrainCircuit,
+  Building2,
+  CheckCircle2,
+  Cloud,
+  Code2,
+  Globe,
+  Layers3,
+  Menu,
+  Phone,
+  Rocket,
+  ShieldCheck,
   Sparkles,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import {AnimatedCard} from "./components/AnimatedCard";
-import {TestimonialCarousel} from "./components/TestimonialCarousel";
-import { AnimatedButton } from "./components/AnimatedButton";
-import { PricingToggle } from "./components/PricingToggle";
-import { ServiceCard } from "./components/ServiceCard";
+import { AnimatePresence, motion } from "framer-motion";
+
+import AnimatedButton from "./components/AnimatedButton";
+import AnimatedCard from "./components/AnimatedCard";
 import FAQAccordion from "./components/FAQAccordion";
-import SocialProof from "./components/SocialProof";
+import WhyChooseRemuAI from "./components/WhyChooseRemuAI";
+import OurCommitment from "./components/OurCommitment";
+
+const COMPANY = {
+  name: "RemuAI",
+  tagline: "AI • Software • Cloud • Automation",
+  description:
+    "RemuAI is an AI and technology company helping businesses build intelligent software, automation systems, cloud-ready platforms, and digital products designed for long-term growth.",
+  phone: "+971 56 467 3090",
+  email: "contact@remuai.com",
+  reunexusUrl: "https://reunexus.space",
+};
+
+const navLinks = [
+  { label: "Home", href: "#home" },
+  { label: "ReuNexus", href: "#reunexus" },
+  { label: "Solutions", href: "#solutions" },
+  { label: "Industries", href: "#industries" },
+  { label: "Technology", href: "#technology" },
+  { label: "FAQ", href: "#faq" },
+];
+
+const heroCapabilities = [
+  {
+    title: "AI Solutions",
+    icon: BrainCircuit,
+    status: "Available",
+  },
+  {
+    title: "Software Engineering",
+    icon: Code2,
+    status: "Available",
+  },
+  {
+    title: "Web Platforms",
+    icon: Globe,
+    status: "Available",
+  },
+  {
+    title: "Automation",
+    icon: Workflow,
+    status: "Available",
+  },
+  {
+    title: "Cloud Solutions",
+    icon: Cloud,
+    status: "Available",
+  },
+  {
+    title: "Cybersecurity",
+    icon: ShieldCheck,
+    status: "Coming Soon",
+  },
+];
+
+const trustSignals = [
+  "AI-First Development",
+  "Worldwide Remote Services",
+  "Cloud-Ready Architecture",
+  "Long-Term Technical Support",
+];
+
+const fadeIn = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-80px" },
+  transition: {
+    duration: 0.7,
+    ease: [0.16, 1, 0.3, 1],
+  },
+};
+
+const staggerContainer = {
+  initial: {},
+  whileInView: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const cardFade = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+};
 
 export default function Home() {
-  const router = useRouter();
-
-  /* -----------------------------
-     STATES
-  ----------------------------- */
-
-  const [activeTab, setActiveTab] = useState("dashboard");
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [isYearlyPricing, setIsYearlyPricing] = useState(false);
-
-  const [darkMode, setDarkMode] = useState(true);
-
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  const [showBackToTop, setShowBackToTop] = useState(false);
-
-  /* -----------------------------
-     ACTIONS
-  ----------------------------- */
+  const StartProject = () => {
+    window.location.href = `mailto:${COMPANY.email}?subject=Start a Project with RemuAI`;
+  };
 
   const LaunchReuNexus = () => {
-    window.open("https://reunexus.space", "_blank");
-  };
-
-  const StartProject = () => {
-    router.push("/contact");
-  };
-
-  const CallUs = () => {
-    window.open("tel:+971564673090");
-  };
-
-  const scrollTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  /* -----------------------------
-     EFFECTS
-  ----------------------------- */
-
-  useEffect(() => {
-    document.documentElement.classList.toggle(
-      "dark",
-      darkMode
-    );
-  }, [darkMode]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
-
-      const progress =
-        (window.scrollY / totalHeight) * 100;
-
-      setScrollProgress(progress);
-
-      setShowBackToTop(window.scrollY > 600);
-    };
-
-    window.addEventListener(
-      "scroll",
-      handleScroll
-    );
-
-    return () =>
-      window.removeEventListener(
-        "scroll",
-        handleScroll
-      );
-  }, []);
-
-  /* -----------------------------
-     ANIMATIONS
-  ----------------------------- */
-
-  const fadeIn = {
-    initial: {
-      opacity: 0,
-      y: 30,
-    },
-
-    whileInView: {
-      opacity: 1,
-      y: 0,
-    },
-
-    transition: {
-      duration: 0.7,
-    },
-
-    viewport: {
-      once: true,
-      margin: "-100px",
-    },
-  };
-
-  const staggerContainer = {
-    initial: {
-      opacity: 0,
-    },
-
-    whileInView: {
-      opacity: 1,
-    },
-
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.15,
-    },
-
-    viewport: {
-      once: true,
-    },
+    window.open(COMPANY.reunexusUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
-  <main
-    className={`${
-      darkMode ? "bg-black text-white" : "bg-white text-black"
-    } overflow-x-hidden transition-colors duration-500`}
-  >
-    {/* Scroll Progress */}
-    <div
-      className="fixed top-0 left-0 h-1 bg-violet-500 z-[100]"
-      style={{ width: `${scrollProgress}%` }}
-    />
+    <main
+      id="home"
+      className="relative min-h-screen overflow-hidden bg-black text-white"
+    ></main>
 
-    {/* Background Glow */}
-    <div className="fixed inset-0 pointer-events-none">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full bg-violet-600/20 blur-[180px]" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-blue-600/10 blur-[160px]" />
-    </div>
+        {/* ================= BACKGROUND SYSTEM ================= */}
 
-    {/* Navbar */}
-    <nav className="sticky top-0 z-50 backdrop-blur-2xl border-b border-white/10 bg-black/40">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0"
+      >
+        {/* Background image */}
+        <div
+          className="
+            absolute inset-0
+            bg-[url('/remuai-hero-bg.jpg')]
+            bg-cover
+            bg-center
+            opacity-35
+          "
+        />
 
-        {/* Logo */}
-        <div className="cursor-pointer">
-          <h1 className="text-3xl font-extrabold tracking-tight">
-            Remu<span className="text-violet-500">AI</span>
-          </h1>
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/75" />
 
-          <p className="text-xs text-gray-400">
-            Intelligent Software Solutions
-          </p>
-        </div>
+        {/* Aurora glow */}
+        <div className="absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-violet-600/25 blur-[140px]" />
+        <div className="absolute right-0 top-40 h-[420px] w-[420px] rounded-full bg-cyan-500/15 blur-[120px]" />
+        <div className="absolute bottom-0 left-0 h-[420px] w-[420px] rounded-full bg-violet-500/20 blur-[130px]" />
 
-        {/* Desktop Links */}
-        <div className="hidden lg:flex items-center gap-8 text-sm">
+        {/* Grid overlay */}
+        <div className="absolute inset-0 grid-bg opacity-30" />
 
-          <a href="#services" className="hover:text-violet-400 transition">
-            Services
-          </a>
-
-          <a href="#reunexus" className="hover:text-violet-400 transition">
-            ReuNexus
-          </a>
-
-          <a href="#portfolio" className="hover:text-violet-400 transition">
-            Portfolio
-          </a>
-
-          <a href="#pricing" className="hover:text-violet-400 transition">
-            Pricing
-          </a>
-
-          <a href="#faq" className="hover:text-violet-400 transition">
-            FAQ
-          </a>
-
-        </div>
-
-        {/* Right Side */}
-        <div className="hidden lg:flex items-center gap-3">
-
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="w-11 h-11 rounded-xl border border-white/10 hover:border-violet-500 transition flex items-center justify-center"
-          >
-            {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-
-          <button
-            onClick={CallUs}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 hover:border-violet-500 transition"
-          >
-            <Phone size={17} />
-            +971 56 467 3090
-          </button>
-
-          <AnimatedButton
-            text="Start Project"
-            variant="outline"
-            size="sm"
-          />
-
-          <button
-            onClick={LaunchReuNexus}
-            className="px-5 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 transition font-semibold"
-          >
-            Launch ReuNexus
-          </button>
-
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden"
-        >
-          {mobileMenuOpen ? (
-            <X size={30} />
-          ) : (
-            <Menu size={30} />
-          )}
-        </button>
-
+        {/* Subtle vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_75%)]" />
       </div>
 
-      {/* Mobile Menu */}
+      {/* Noise overlay */}
+      <div className="noise" />
 
-      {mobileMenuOpen && (
+      {/* ================= NAVBAR ================= */}
 
-        <div className="lg:hidden border-t border-white/10 bg-black/95 backdrop-blur-xl">
+      <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-black/55 backdrop-blur-2xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+          {/* Logo */}
+          <Link href="#home" className="group flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-violet-500/30 bg-violet-500/10 shadow-lg shadow-violet-600/20">
+              <Sparkles className="h-5 w-5 text-violet-300" />
+            </div>
 
-          <div className="flex flex-col p-6 gap-5">
+            <div>
+              <div className="text-xl font-black tracking-tight">
+                Remu<span className="text-violet-400">AI</span>
+              </div>
+              <div className="text-xs text-gray-500">
+                {COMPANY.tagline}
+              </div>
+            </div>
+          </Link>
 
-            <a href="#services">Services</a>
+          {/* Desktop links */}
+          <div className="hidden items-center gap-8 lg:flex">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-sm font-medium text-gray-400 transition hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
 
-            <a href="#reunexus">ReuNexus</a>
-
-            <a href="#portfolio">Portfolio</a>
-
-            <a href="#pricing">Pricing</a>
-
-            <a href="#faq">FAQ</a>
-
+          {/* Desktop CTA */}
+          <div className="hidden items-center gap-3 lg:flex">
             <button
-              onClick={CallUs}
-              className="flex items-center gap-3 text-left"
+              onClick={StartProject}
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:border-violet-500/50 hover:bg-violet-500/10"
             >
-              <Phone size={18} />
-              +971 56 467 3090
-            </button>
-
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="flex items-center gap-3"
-            >
-              {darkMode ? (
-                <>
-                  <Sun size={18} />
-                  Light Mode
-                </>
-              ) : (
-                <>
-                  <Moon size={18} />
-                  Dark Mode
-                </>
-              )}
+              <Phone className="h-4 w-4" />
+              Talk to Us
             </button>
 
             <button
               onClick={LaunchReuNexus}
-              className="w-full py-3 rounded-xl bg-violet-600"
+              className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-500"
             >
-              Launch ReuNexus
+              Open ReuNexus
+              <ArrowRight className="h-4 w-4" />
             </button>
-
           </div>
 
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen((value) => !value)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white lg:hidden"
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </button>
         </div>
 
-      )}
+        {/* Mobile menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.2 }}
+              className="border-t border-white/10 bg-black/95 px-6 py-6 lg:hidden"
+            >
+              <div className="flex flex-col gap-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="rounded-xl px-4 py-3 text-gray-300 transition hover:bg-white/5 hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
 
-    </nav>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    StartProject();
+                  }}
+                  className="mt-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-semibold text-white"
+                >
+                  Talk to Us
+                </button>
 
- {/* ================= HERO ================= */}
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    LaunchReuNexus();
+                  }}
+                  className="rounded-xl bg-violet-600 px-4 py-3 font-semibold text-white"
+                >
+                  Open ReuNexus
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
 
-<section className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-28">
+    {/* ================= HERO ================= */}
 
-  <div className="grid lg:grid-cols-2 gap-20 items-center">
+<section
+  id="home"
+  className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-6 pt-32 pb-24 lg:px-8"
+>
+  <div className="grid items-center gap-20 lg:grid-cols-2">
 
-    {/* LEFT */}
+    {/* ================= LEFT ================= */}
 
     <motion.div {...fadeIn}>
 
-      <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-5 py-2 text-violet-300 mb-8">
+      {/* Badge */}
 
-        <Sparkles size={18} />
+      <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-5 py-2 text-sm font-medium text-violet-300">
 
-        Building Intelligent Digital Solutions
+        <Sparkles className="h-4 w-4" />
+
+        AI • Software • Cloud • Automation
 
       </div>
 
-      <h1 className="text-5xl md:text-6xl xl:text-7xl font-black leading-tight">
+      {/* Heading */}
 
-        AI Solutions
+      <h1 className="mt-8 text-5xl font-black leading-tight md:text-6xl xl:text-7xl">
 
-        <span className="block text-violet-500">
+        Building
 
-          Built For
+        <span className="block text-white">
+
+          Intelligent
 
         </span>
 
-        Modern Businesses
+        <span className="block text-violet-400">
+
+          Business Technology
+
+        </span>
 
       </h1>
 
-      <p className="mt-8 text-lg md:text-xl text-gray-400 leading-8 max-w-xl">
+      {/* Description */}
 
-        RemuAI helps businesses and entrepreneurs build
-        AI-powered software, websites, web applications,
-        chatbots, automation systems and custom digital
-        solutions that solve real problems.
+      <p className="mt-8 max-w-xl text-lg leading-8 text-gray-300 md:text-xl">
+
+        RemuAI helps businesses transform ideas into intelligent
+        software, AI-powered automation, cloud-ready platforms,
+        and modern digital solutions designed to scale with
+        confidence.
 
       </p>
 
-      {/* SERVICES */}
+      {/* Buttons */}
 
-      <div className="grid grid-cols-2 gap-4 mt-10">
+      <div className="mt-10 flex flex-wrap gap-4">
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          🤖 AI Solutions
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          🌐 Websites
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          💻 Web Applications
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          ⚡ Automation
-        </div>
-
-      </div>
-
-      {/* BUTTONS */}
-
-      <div className="flex flex-wrap gap-4 mt-10">
-
-        <button
+        <AnimatedButton
+          text="Build With RemuAI"
+          size="lg"
+          icon={<Rocket size={20} />}
           onClick={StartProject}
-          className="px-8 py-4 rounded-2xl bg-violet-600 hover:bg-violet-500 transition font-semibold"
-        >
-          Start Your Project
-        </button>
+        />
 
-        <button
+        <AnimatedButton
+          text="Open ReuNexus"
+          size="lg"
+          variant="outline"
+          icon={<ArrowRight size={20} />}
           onClick={LaunchReuNexus}
-          className="px-8 py-4 rounded-2xl border border-violet-500 hover:bg-violet-600/20 transition"
-        >
-          Explore ReuNexus
-        </button>
+        />
 
       </div>
 
-      {/* CONTACT */}
+      {/* Trust */}
 
-      <div className="flex flex-wrap gap-8 mt-10 text-gray-400">
+      <div className="mt-12 grid grid-cols-2 gap-4 text-sm text-gray-400">
 
-        <div className="flex items-center gap-2">
+        {trustSignals.map((item) => (
 
-          <Phone size={18} />
+          <div
+            key={item}
+            className="flex items-center gap-2"
+          >
 
-          +971 56 467 3090
+            <CheckCircle2
+              className="h-4 w-4 text-violet-400"
+            />
 
-        </div>
+            {item}
 
-        <div className="flex items-center gap-2">
+          </div>
 
-          <Globe size={18} />
-
-          Worldwide Services
-
-        </div>
+        ))}
 
       </div>
 
-    </motion.div>
+    </motion.div>  
 
-    {/* RIGHT */}
+      {/* ================= RIGHT ================= */}
 
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8 }}
+      initial={{ opacity: 0, scale: 0.92, x: 40 }}
+      whileInView={{ opacity: 1, scale: 1, x: 0 }}
       viewport={{ once: true }}
-      className="relative"
+      transition={{
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      className="relative hidden lg:block"
     >
-
+      {/* Glow */}
       <div className="absolute inset-0 rounded-[40px] bg-violet-600/20 blur-[120px]" />
 
-      <div className="relative rounded-[40px] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden">
+      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-black/50 shadow-2xl shadow-violet-600/20 backdrop-blur-2xl">
 
-        {/* WINDOW BAR */}
+        {/* Window Bar */}
+        <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-full bg-red-500" />
+            <span className="h-3 w-3 rounded-full bg-yellow-500" />
+            <span className="h-3 w-3 rounded-full bg-green-500" />
+          </div>
 
-        <div className="flex items-center gap-2 border-b border-white/10 p-5">
-
-          <div className="w-3 h-3 rounded-full bg-red-500" />
-
-          <div className="w-3 h-3 rounded-full bg-yellow-500" />
-
-          <div className="w-3 h-3 rounded-full bg-green-500" />
-
-          <span className="ml-4 text-gray-400">
-
-            RemuAI Workspace
-
-          </span>
-
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            <Bot className="h-4 w-4 text-violet-300" />
+            ReuNexus Workspace
+          </div>
         </div>
 
-        <div className="p-8 space-y-6">
+        <div className="space-y-6 p-6">
 
-          <div className="rounded-2xl bg-black/40 p-5">
+          {/* Main AI Panel */}
+          <div className="rounded-3xl border border-violet-500/30 bg-violet-500/10 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm uppercase tracking-[0.2em] text-violet-300">
+                  AI Operating Layer
+                </p>
 
-            👤 Client
+                <h3 className="mt-2 text-2xl font-bold">
+                  Business Intelligence Active
+                </h3>
+              </div>
 
-            <div className="mt-2 text-gray-300">
-
-              Build a modern website with an AI chatbot
-              for my business.
-
+              <div className="rounded-2xl bg-violet-500/20 p-3 text-violet-200">
+                <BrainCircuit className="h-7 w-7" />
+              </div>
             </div>
 
+            <div className="mt-6 grid grid-cols-3 gap-3">
+              {["AI Agents", "Automation", "Analytics"].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-2xl border border-white/10 bg-black/30 p-4 text-center text-sm text-gray-300"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="rounded-2xl border border-violet-500/30 bg-violet-500/10 p-5">
+          {/* Workflow */}
+          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+            <div className="mb-5 flex items-center justify-between">
+              <h4 className="font-semibold">
+                Live Project Workflow
+              </h4>
 
-            🤖 RemuAI
-
-            <div className="mt-3 space-y-2 text-gray-300">
-
-              ✓ Website Strategy
-
-              <br />
-
-              ✓ UI/UX Design
-
-              <br />
-
-              ✓ AI Chatbot
-
-              <br />
-
-              ✓ Development
-
-              <br />
-
-              ✓ Deployment
-
+              <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-300">
+                Running
+              </span>
             </div>
 
+            <div className="space-y-4">
+              {[
+                "Client Request Received",
+                "AI Analysis Completed",
+                "Architecture Planned",
+                "Automation Flow Generated",
+                "Deployment Ready",
+              ].map((step, index) => (
+                <div
+                  key={step}
+                  className="flex items-center gap-3"
+                >
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full border border-violet-500/30 bg-violet-500/10 text-xs text-violet-300">
+                    {index + 1}
+                  </div>
+
+                  <div className="flex-1 rounded-xl bg-black/30 px-4 py-3 text-sm text-gray-300">
+                    {step}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
+          {/* Capabilities Grid */}
           <div className="grid grid-cols-2 gap-4">
+            {heroCapabilities.map((item) => {
+              const Icon = item.icon;
 
-            <div className="rounded-xl bg-black/40 p-5">
+              return (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border border-white/10 bg-black/35 p-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon className="h-5 w-5 text-violet-300" />
 
-              🌐 Websites
+                    <div>
+                      <p className="text-sm font-semibold">
+                        {item.title}
+                      </p>
 
-            </div>
-
-            <div className="rounded-xl bg-black/40 p-5">
-
-              🤖 AI Chatbots
-
-            </div>
-
-            <div className="rounded-xl bg-black/40 p-5">
-
-              ⚡ Automation
-
-            </div>
-
-            <div className="rounded-xl bg-black/40 p-5">
-
-              🚀 ReuNexus
-
-            </div>
-
+                      <p
+                        className={`text-xs ${
+                          item.status === "Coming Soon"
+                            ? "text-cyan-300"
+                            : "text-emerald-300"
+                        }`}
+                      >
+                        {item.status}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
         </div>
-
       </div>
-
     </motion.div>
-
   </div>
-
 </section>
 
-{/* ================= SERVICES ================= */}
+{/* ================= WHO IS REMUAI ================= */}
+
+<section className="relative z-10 mx-auto max-w-7xl px-6 py-28 lg:px-8">
+  <div className="grid items-center gap-16 lg:grid-cols-2">
+    
+    {/* Left */}
+    <motion.div {...fadeIn}>
+      <span className="text-sm uppercase tracking-[0.3em] text-violet-400">
+        Who Is RemuAI?
+      </span>
+
+      <h2 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
+        An AI and Technology Company Built for the Future
+      </h2>
+
+      <p className="mt-6 text-lg leading-8 text-gray-400">
+        RemuAI helps businesses design, build, and deploy intelligent digital
+        solutions that combine artificial intelligence, software engineering,
+        automation, cloud technologies, and modern user experience.
+      </p>
+
+      <p className="mt-5 text-lg leading-8 text-gray-400">
+        Our goal is not to simply build websites or apps. Our goal is to help
+        companies use technology as a real advantage — improving operations,
+        connecting systems, automating work, and creating better digital
+        experiences for customers and teams.
+      </p>
+    </motion.div>
+
+    {/* Right */}
+    <div className="grid gap-6">
+      {[
+        {
+          icon: <BrainCircuit className="h-7 w-7" />,
+          title: "AI-First Vision",
+          description:
+            "We identify practical ways AI can improve customer experience, operations, productivity, and decision-making.",
+        },
+        {
+          icon: <Code2 className="h-7 w-7" />,
+          title: "Modern Engineering",
+          description:
+            "We build scalable websites, applications, dashboards, platforms, and internal systems using modern development practices.",
+        },
+        {
+          icon: <Layers3 className="h-7 w-7" />,
+          title: "Product Ecosystem",
+          description:
+            "RemuAI is building beyond services, with ReuNexus as our flagship AI platform and future products on the roadmap.",
+        },
+      ].map((item, index) => (
+        <motion.div
+          key={item.title}
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{
+            duration: 0.6,
+            delay: index * 0.12,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-7 backdrop-blur-xl transition hover:border-violet-500/40 hover:bg-white/[0.06]"
+        >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          />
+
+          <div className="relative flex gap-5">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-violet-300">
+              {item.icon}
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold">
+                {item.title}
+              </h3>
+
+              <p className="mt-3 leading-7 text-gray-400">
+                {item.description}
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* ================= REUNEXUS ================= */}
 
 <section
-  id="services"
-  className="max-w-7xl mx-auto px-6 lg:px-8 py-28"
+  id="reunexus"
+  className="relative z-10 mx-auto max-w-7xl px-6 py-28 lg:px-8"
 >
+  <div className="overflow-hidden rounded-[42px] border border-violet-500/20 bg-gradient-to-br from-violet-600/20 via-white/[0.04] to-cyan-500/10 p-8 shadow-2xl shadow-violet-600/10 backdrop-blur-2xl md:p-12 lg:p-16">
+    <div className="grid items-center gap-14 lg:grid-cols-2">
 
+      {/* Left */}
+      <motion.div {...fadeIn}>
+        <span className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-5 py-2 text-sm font-semibold text-violet-300">
+          <Rocket className="h-4 w-4" />
+          Flagship Platform
+        </span>
+
+        <h2 className="mt-8 text-4xl font-black leading-tight md:text-6xl">
+          Meet ReuNexus,
+          <span className="block text-violet-300">
+            the AI Workspace from RemuAI
+          </span>
+        </h2>
+
+        <p className="mt-6 text-lg leading-8 text-gray-300">
+          ReuNexus is the flagship platform in the RemuAI ecosystem. It brings
+          together AI tools, intelligent assistants, productivity features, and
+          future automation capabilities into one unified workspace.
+        </p>
+
+        <p className="mt-5 text-lg leading-8 text-gray-400">
+          While RemuAI helps businesses build custom technology, ReuNexus
+          represents our product vision: a growing AI platform designed to help
+          people work, create, automate, and manage knowledge more intelligently.
+        </p>
+
+        <div className="mt-10 flex flex-wrap gap-4">
+          <AnimatedButton
+            text="Open ReuNexus"
+            size="lg"
+            icon={<ArrowRight size={20} />}
+            onClick={LaunchReuNexus}
+          />
+
+          <AnimatedButton
+            text="Build With RemuAI"
+            size="lg"
+            variant="outline"
+            icon={<Sparkles size={20} />}
+            onClick={StartProject}
+          />
+        </div>
+      </motion.div>
+
+      {/* Right */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.94, x: 40 }}
+        whileInView={{ opacity: 1, scale: 1, x: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{
+          duration: 0.75,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        className="relative"
+      >
+        <div className="absolute inset-0 rounded-[34px] bg-cyan-500/10 blur-[100px]" />
+
+        <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-black/50 p-6 backdrop-blur-2xl">
+          <div className="mb-6 flex items-center justify-between border-b border-white/10 pb-5">
+            <div>
+              <p className="text-sm uppercase tracking-[0.25em] text-violet-300">
+                ReuNexus
+              </p>
+              <h3 className="mt-1 text-2xl font-bold">
+                Unified AI Workspace
+              </h3>
+            </div>
+
+            <span className="rounded-full bg-emerald-500/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-emerald-300">
+              Live
+            </span>
+          </div>
+
+          <div className="grid gap-4">
+            {[
+              {
+                label: "AI Assistants",
+                value: "Available",
+              },
+              {
+                label: "AI Productivity Tools",
+                value: "Available",
+              },
+              {
+                label: "Knowledge Workspace",
+                value: "Available",
+              },
+              {
+                label: "AI Agents",
+                value: "Coming Soon",
+              },
+              {
+                label: "Workflow Automation",
+                value: "Coming Soon",
+              },
+              {
+                label: "Developer API",
+                value: "Coming Soon",
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4"
+              >
+                <span className="font-medium text-gray-200">
+                  {item.label}
+                </span>
+
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                    item.value === "Available"
+                      ? "bg-emerald-500/10 text-emerald-300"
+                      : "bg-cyan-500/10 text-cyan-300"
+                  }`}
+                >
+                  {item.value}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+    </div>
+  </div>
+</section>
+
+{/* ================= SOLUTIONS ================= */}
+
+<section
+  id="solutions"
+  className="relative z-10 mx-auto max-w-7xl px-6 py-32 lg:px-8"
+>
   <motion.div
     {...fadeIn}
-    className="text-center mb-20"
+    className="mx-auto mb-20 max-w-4xl text-center"
   >
-
-    <span className="text-violet-400 uppercase tracking-[0.25em]">
-
-      Our Services
-
+    <span className="text-sm uppercase tracking-[0.3em] text-violet-400">
+      Intelligent Technology Solutions
     </span>
 
-    <h2 className="text-4xl md:text-6xl font-black mt-5">
-
-      What We Build
-
+    <h2 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
+      Technology That Solves
+      <span className="block text-violet-400">
+        Real Business Problems
+      </span>
     </h2>
 
-    <p className="mt-6 text-gray-400 text-lg max-w-3xl mx-auto leading-8">
-
-      Whether you're launching a startup, growing your business,
-      or bringing a new idea to life, RemuAI delivers intelligent,
-      modern software tailored to your goals.
-
+    <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-gray-400">
+      Whether you're launching a startup, modernizing an enterprise,
+      or accelerating digital transformation, RemuAI delivers
+      intelligent technology designed for long-term business success.
     </p>
-
   </motion.div>
 
   <motion.div
@@ -567,799 +772,422 @@ export default function Home() {
     initial="initial"
     whileInView="whileInView"
     viewport={{ once: true }}
-    className="grid md:grid-cols-2 xl:grid-cols-3 gap-8"
+    className="grid gap-8 md:grid-cols-2 xl:grid-cols-3"
   >
 
-      {/* AI */}
+    <ServiceCard
+      icon={<BrainCircuit className="h-8 w-8" />}
+      title="AI Solutions"
+      description="Practical artificial intelligence that improves productivity, customer experience, and decision making."
+      features={[
+        "AI Chatbots",
+        "AI Assistants",
+        "AI Integrations",
+        "Prompt Engineering",
+        "Business Intelligence",
+      ]}
+      featured
+    />
 
-      <motion.div
-        variants={fadeIn}
-        whileHover={{ y: -8 }}
-        className="rounded-3xl border border-white/10 bg-white/5 p-8"
-      >
+    <ServiceCard
+      icon={<Code2 className="h-8 w-8" />}
+      title="Software Engineering"
+      description="Custom software designed specifically around your business processes."
+      features={[
+        "Business Systems",
+        "Internal Dashboards",
+        "CRM & ERP",
+        "Custom Platforms",
+        "Scalable Architecture",
+      ]}
+    />
 
-        <div className="text-5xl mb-6">🤖</div>
+    <ServiceCard
+      icon={<Globe className="h-8 w-8" />}
+      title="Web Platforms"
+      description="Modern websites and web applications built for speed, usability, and growth."
+      features={[
+        "Business Websites",
+        "Web Applications",
+        "Customer Portals",
+        "E-Commerce",
+        "Responsive Design",
+      ]}
+    />
 
-        <h3 className="text-2xl font-bold mb-4">
+    <ServiceCard
+      icon={<Workflow className="h-8 w-8" />}
+      title="Business Automation"
+      description="Reduce repetitive work by connecting systems and automating workflows."
+      features={[
+        "Workflow Automation",
+        "Process Optimization",
+        "Third-Party Integrations",
+        "Notifications",
+        "Reporting",
+      ]}
+    />
 
-          AI Solutions
+    <ServiceCard
+      icon={<Cloud className="h-8 w-8" />}
+      title="Cloud Solutions"
+      description="Deploy secure, scalable applications with modern cloud infrastructure."
+      features={[
+        "Cloud Deployment",
+        "Hosting",
+        "Monitoring",
+        "Backups",
+        "Maintenance",
+      ]}
+    />
 
-        </h3>
-
-        <p className="text-gray-400 leading-7">
-
-          Intelligent assistants, AI integrations,
-          automation systems, recommendation engines,
-          and business intelligence powered by modern AI.
-
-        </p>
-
-      </motion.div>
-
-      {/* Websites */}
-
-      <motion.div
-        variants={fadeIn}
-        whileHover={{ y: -8 }}
-        className="rounded-3xl border border-white/10 bg-white/5 p-8"
-      >
-
-        <div className="text-5xl mb-6">🌐</div>
-
-        <h3 className="text-2xl font-bold mb-4">
-
-          Professional Websites
-
-        </h3>
-
-        <p className="text-gray-400 leading-7">
-
-          Fast, modern, responsive websites that
-          represent your brand and convert visitors
-          into customers.
-
-        </p>
-
-      </motion.div>
-
-      {/* Web Apps */}
-
-      <motion.div
-        variants={fadeIn}
-        whileHover={{ y: -8 }}
-        className="rounded-3xl border border-white/10 bg-white/5 p-8"
-      >
-
-        <div className="text-5xl mb-6">💻</div>
-
-        <h3 className="text-2xl font-bold mb-4">
-
-          Web Applications
-
-        </h3>
-
-        <p className="text-gray-400 leading-7">
-
-          Powerful cloud-based platforms,
-          dashboards, portals and business
-          management systems.
-
-        </p>
-
-      </motion.div>
-
-      {/* Chatbots */}
-
-      <motion.div
-        variants={fadeIn}
-        whileHover={{ y: -8 }}
-        className="rounded-3xl border border-white/10 bg-white/5 p-8"
-      >
-
-        <div className="text-5xl mb-6">💬</div>
-
-        <h3 className="text-2xl font-bold mb-4">
-
-          AI Chatbots
-
-        </h3>
-
-        <p className="text-gray-400 leading-7">
-
-          Smart conversational assistants
-          for customer support, lead generation,
-          sales and internal operations.
-
-        </p>
-
-      </motion.div>
-
-      {/* Automation */}
-
-      <motion.div
-        variants={fadeIn}
-        whileHover={{ y: -8 }}
-        className="rounded-3xl border border-white/10 bg-white/5 p-8"
-      >
-
-        <div className="text-5xl mb-6">⚡</div>
-
-        <h3 className="text-2xl font-bold mb-4">
-
-          Business Automation
-
-        </h3>
-
-        <p className="text-gray-400 leading-7">
-
-          Eliminate repetitive work by connecting
-          your apps, workflows and AI into one
-          automated ecosystem.
-
-        </p>
-
-      </motion.div>
-
-      {/* Custom */}
-
-      <motion.div
-        variants={fadeIn}
-        whileHover={{ y: -8 }}
-        className="rounded-3xl border border-violet-500/30 bg-gradient-to-br from-violet-500/10 to-transparent p-8"
-      >
-
-        <div className="text-5xl mb-6">🚀</div>
-
-        <h3 className="text-2xl font-bold mb-4">
-
-          Custom Software
-
-        </h3>
-
-        <p className="text-gray-400 leading-7">
-
-          Have a unique idea?
-          We design and build custom software
-          engineered specifically for your business.
-
-        </p>
-
-      </motion.div>
+    <ServiceCard
+      icon={<ShieldCheck className="h-8 w-8" />}
+      title="Cybersecurity"
+      description="Security services and enterprise protection currently under development."
+      features={[
+        "Security Assessments",
+        "Infrastructure Protection",
+        "Identity Management",
+        "Compliance",
+        "Threat Monitoring",
+      ]}
+      comingSoon
+    />
 
   </motion.div>
-
 </section>
 
-{/* ================= WHY REMUAI ================= */}
+{/* ================= REMUAI DIFFERENCE ================= */}
 
-<section className="max-w-7xl mx-auto px-6 lg:px-8 py-28">
-
-  <motion.div
-    {...fadeIn}
-    className="text-center mb-20"
-  >
-
-    <span className="text-violet-400 uppercase tracking-[0.25em]">
-      Why RemuAI
-    </span>
-
-    <h2 className="text-4xl md:text-6xl font-black mt-5">
-      More Than Development.
-      <br />
-      A Technology Partner.
-    </h2>
-
-    <p className="text-lg text-gray-400 max-w-3xl mx-auto mt-6 leading-8">
-      We don't just deliver software—we work with you to understand your
-      goals, recommend the right technology, and build solutions that grow
-      with your business.
-    </p>
-
-  </motion.div>
-
-  <div className="grid lg:grid-cols-2 gap-8">
+<section className="relative z-10 mx-auto max-w-7xl px-6 py-28 lg:px-8">
+  <div className="grid items-center gap-16 lg:grid-cols-[0.9fr_1.1fr]">
 
     {/* Left */}
+    <motion.div {...fadeIn}>
+      <span className="text-sm uppercase tracking-[0.3em] text-violet-400">
+        The RemuAI Difference
+      </span>
 
-    <div className="space-y-6">
+      <h2 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
+        Built Like a Technology Partner,
+        <span className="block text-violet-400">
+          Not a One-Time Vendor
+        </span>
+      </h2>
 
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+      <p className="mt-6 text-lg leading-8 text-gray-400">
+        Many businesses struggle because their tools are disconnected, outdated,
+        or built without a long-term technology strategy. RemuAI focuses on
+        building connected, scalable, AI-ready systems that continue improving
+        as your business grows.
+      </p>
 
-        <h3 className="text-2xl font-bold mb-3">
-          🚀 Built Around Your Business
-        </h3>
+      <div className="mt-10 flex flex-wrap gap-4">
+        <AnimatedButton
+          text="Start a Conversation"
+          icon={<Phone size={20} />}
+          onClick={StartProject}
+        />
 
-        <p className="text-gray-400 leading-7">
-          Every project is designed around your workflow,
-          customers and long-term vision—not a generic template.
-        </p>
-
+        <AnimatedButton
+          text="View Solutions"
+          variant="outline"
+          icon={<ArrowRight size={20} />}
+          onClick={() => {
+            document
+              .getElementById("solutions")
+              ?.scrollIntoView({ behavior: "smooth" });
+          }}
+        />
       </div>
-
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-
-        <h3 className="text-2xl font-bold mb-3">
-          🤖 AI-First Approach
-        </h3>
-
-        <p className="text-gray-400 leading-7">
-          We integrate modern AI where it creates real value,
-          helping businesses automate work, improve efficiency
-          and deliver better customer experiences.
-        </p>
-
-      </div>
-
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-
-        <h3 className="text-2xl font-bold mb-3">
-          📈 Built to Grow
-        </h3>
-
-        <p className="text-gray-400 leading-7">
-          Whether you're a startup or an established business,
-          we build solutions that can evolve as your needs change.
-        </p>
-
-      </div>
-
-    </div>
+    </motion.div>
 
     {/* Right */}
+    <div className="grid gap-6">
+      {[
+        {
+          title: "AI Before Decoration",
+          description:
+            "We use AI where it creates operational value, not just as a marketing label.",
+          icon: <BrainCircuit className="h-7 w-7" />,
+        },
+        {
+          title: "Connected Systems",
+          description:
+            "We design technology that connects your website, data, workflows, tools, and customer experience.",
+          icon: <Workflow className="h-7 w-7" />,
+        },
+        {
+          title: "Scalable Architecture",
+          description:
+            "Every serious solution is planned with performance, maintainability, security, and future growth in mind.",
+          icon: <Layers3 className="h-7 w-7" />,
+        },
+        {
+          title: "Product Mindset",
+          description:
+            "Because RemuAI also builds ReuNexus, we approach client work with the discipline of a product company.",
+          icon: <Rocket className="h-7 w-7" />,
+        },
+      ].map((item, index) => (
+        <motion.div
+          key={item.title}
+          initial={{ opacity: 0, x: 28 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{
+            duration: 0.55,
+            delay: index * 0.1,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-7 transition hover:border-violet-500/40 hover:bg-white/[0.06]"
+        >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          />
 
-    <div className="rounded-[36px] border border-violet-500/20 bg-gradient-to-br from-violet-500/10 via-black/20 to-transparent p-10">
+          <div className="relative flex gap-5">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-violet-300">
+              {item.icon}
+            </div>
 
-      <h3 className="text-3xl font-bold mb-8">
+            <div>
+              <h3 className="text-xl font-bold">
+                {item.title}
+              </h3>
 
-        What You Can Expect
-
-      </h3>
-
-      <div className="space-y-6">
-
-        <div className="flex gap-4">
-          <div className="text-green-400 text-xl">✓</div>
-          <div>
-            Clear communication from planning to deployment.
+              <p className="mt-3 leading-7 text-gray-400">
+                {item.description}
+              </p>
+            </div>
           </div>
-        </div>
-
-        <div className="flex gap-4">
-          <div className="text-green-400 text-xl">✓</div>
-          <div>
-            Modern technologies chosen for long-term reliability.
-          </div>
-        </div>
-
-        <div className="flex gap-4">
-          <div className="text-green-400 text-xl">✓</div>
-          <div>
-            Clean, responsive and professional user experiences.
-          </div>
-        </div>
-
-        <div className="flex gap-4">
-          <div className="text-green-400 text-xl">✓</div>
-          <div>
-            Ongoing improvements and technical support after launch.
-          </div>
-        </div>
-
-        <div className="flex gap-4">
-          <div className="text-green-400 text-xl">✓</div>
-          <div>
-            Solutions built with performance, security and scalability in mind.
-          </div>
-        </div>
-
-      </div>
-
-      <div className="mt-10 p-6 rounded-2xl border border-violet-500/20 bg-violet-500/10">
-
-        <div className="text-violet-300 font-semibold mb-2">
-          Need a custom solution?
-        </div>
-
-        <p className="text-gray-300 leading-7">
-          Whether it's an AI platform, website, chatbot,
-          automation system or a completely unique project,
-          we'll help bring your idea to life.
-        </p>
-
-      </div>
-
+        </motion.div>
+      ))}
     </div>
 
   </div>
-
 </section>
 
-{/* ================= REUNEXUS ================= */}
+{/* ================= INDUSTRIES ================= */}
 
 <section
-  id="reunexus"
-  className="max-w-7xl mx-auto px-6 lg:px-8 py-32"
+  id="industries"
+  className="relative z-10 mx-auto max-w-7xl px-6 py-32 lg:px-8"
 >
-
   <motion.div
     {...fadeIn}
-    className="text-center mb-20"
+    className="mx-auto mb-20 max-w-4xl text-center"
   >
-
-    <span className="text-violet-400 uppercase tracking-[0.25em]">
-
-      Flagship Product
-
+    <span className="text-sm uppercase tracking-[0.3em] text-violet-400">
+      Industries We Empower
     </span>
 
-    <h2 className="text-4xl md:text-6xl font-black mt-5">
-
-      Meet ReuNexus
-
+    <h2 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
+      Intelligent Solutions Across
+      <span className="block text-violet-400">
+        Modern Industries
+      </span>
     </h2>
 
-    <p className="mt-6 text-lg text-gray-400 max-w-3xl mx-auto leading-8">
-
-      ReuNexus is RemuAI's flagship AI workspace.
-      Chat with advanced AI, organize projects,
-      automate workflows and manage your digital
-      work from one intelligent platform.
-
+    <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-gray-400">
+      RemuAI builds adaptable technology that can support different industries,
+      workflows, and business models — from customer-facing platforms to
+      internal automation systems.
     </p>
-
   </motion.div>
 
-  <div className="rounded-[40px] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden">
+  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {[
+      {
+        title: "Healthcare",
+        description: "Patient portals, AI assistance, scheduling, and workflow systems.",
+      },
+      {
+        title: "Education",
+        description: "Learning platforms, student portals, AI tutors, and automation.",
+      },
+      {
+        title: "Retail",
+        description: "E-commerce, inventory systems, customer support, and analytics.",
+      },
+      {
+        title: "Hospitality",
+        description: "Booking systems, AI reception, guest support, and operations.",
+      },
+      {
+        title: "Real Estate",
+        description: "Property platforms, CRM systems, lead automation, and portals.",
+      },
+      {
+        title: "Finance",
+        description: "Dashboards, automation, customer tools, and secure workflows.",
+      },
+      {
+        title: "Logistics",
+        description: "Tracking systems, operations dashboards, routing, and reporting.",
+      },
+      {
+        title: "Startups",
+        description: "MVPs, SaaS platforms, AI products, and scalable digital systems.",
+      },
+    ].map((industry, index) => (
+      <motion.article
+        key={industry.title}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{
+          duration: 0.55,
+          delay: index * 0.06,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        whileHover={{
+          y: -6,
+          scale: 1.015,
+        }}
+        className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-6 transition hover:border-violet-500/40 hover:bg-white/[0.06]"
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        />
 
-    <div className="grid lg:grid-cols-5">
+        <div className="relative">
+          <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-violet-500/10 text-violet-300">
+            <Building2 className="h-6 w-6" />
+          </div>
 
-      {/* Sidebar */}
+          <h3 className="text-xl font-bold">
+            {industry.title}
+          </h3>
 
-      <div className="lg:col-span-1 border-r border-white/10 p-6">
-
-        <div className="space-y-3">
-
-          {[
-            "dashboard",
-            "chat",
-            "agents",
-            "projects",
-            "automation",
-            "analytics",
-          ].map((tab) => (
-
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`w-full text-left rounded-xl px-5 py-4 transition font-medium ${
-                activeTab === tab
-                  ? "bg-violet-600"
-                  : "hover:bg-white/5"
-              }`}
-            >
-
-              {tab === "dashboard" && "Dashboard"}
-
-              {tab === "chat" && "AI Assistant"}
-
-              {tab === "agents" && "AI Agents"}
-
-              {tab === "projects" && "Projects"}
-
-              {tab === "automation" && "Automation"}
-
-              {tab === "analytics" && "Analytics"}
-
-            </button>
-
-          ))}
-
+          <p className="mt-3 text-sm leading-7 text-gray-400">
+            {industry.description}
+          </p>
         </div>
-
-      </div>
-
-      {/* Content */}
-
-      <div className="lg:col-span-4 p-8">
-
-        {activeTab === "dashboard" && (
-
-          <div>
-
-            <h3 className="text-3xl font-bold mb-8">
-
-              Workspace Overview
-
-            </h3>
-
-            <div className="grid md:grid-cols-3 gap-6">
-
-              <div className="rounded-2xl bg-black/30 p-6">
-
-                <div className="text-sm text-gray-400">
-
-                  Active Projects
-
-                </div>
-
-                <div className="text-4xl font-bold mt-3">
-
-                  8
-
-                </div>
-
-              </div>
-
-              <div className="rounded-2xl bg-black/30 p-6">
-
-                <div className="text-sm text-gray-400">
-
-                  AI Conversations
-
-                </div>
-
-                <div className="text-4xl font-bold mt-3">
-
-                  146
-
-                </div>
-
-              </div>
-
-              <div className="rounded-2xl bg-black/30 p-6">
-
-                <div className="text-sm text-gray-400">
-
-                  Automations
-
-                </div>
-
-                <div className="text-4xl font-bold mt-3">
-
-                  21
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        )}
-
-        {activeTab === "chat" && (
-
-          <div className="space-y-5">
-
-            <div className="rounded-2xl bg-violet-600 p-5 ml-auto max-w-lg">
-
-              Create an AI-powered website for my company.
-
-            </div>
-
-            <div className="rounded-2xl bg-black/30 border border-white/10 p-5 max-w-2xl">
-
-              Absolutely. I'll create a project plan,
-              recommend the technology stack,
-              generate the UI structure and prepare
-              the development roadmap.
-
-            </div>
-
-          </div>
-
-        )}
-
-        {activeTab === "agents" && (
-
-          <div className="grid md:grid-cols-2 gap-6">
-
-            <div className="rounded-2xl bg-black/30 p-6">
-
-              <h4 className="font-bold text-xl mb-3">
-
-                Research Agent
-
-              </h4>
-
-              <p className="text-gray-400">
-
-                Collects information,
-                compares competitors and
-                summarizes findings.
-
-              </p>
-
-            </div>
-
-            <div className="rounded-2xl bg-black/30 p-6">
-
-              <h4 className="font-bold text-xl mb-3">
-
-                Development Agent
-
-              </h4>
-
-              <p className="text-gray-400">
-
-                Helps generate code,
-                debug applications and
-                organize development tasks.
-
-              </p>
-
-            </div>
-
-          </div>
-
-        )}
-
-        {activeTab === "projects" && (
-
-          <div className="grid md:grid-cols-2 gap-6">
-
-            <div className="rounded-2xl bg-black/30 p-6">
-
-              🌐 Company Website
-
-            </div>
-
-            <div className="rounded-2xl bg-black/30 p-6">
-
-              🤖 Customer Chatbot
-
-            </div>
-
-            <div className="rounded-2xl bg-black/30 p-6">
-
-              📊 Sales Dashboard
-
-            </div>
-
-            <div className="rounded-2xl bg-black/30 p-6">
-
-              ⚡ Business Automation
-
-            </div>
-
-          </div>
-
-        )}
-
-        {activeTab === "automation" && (
-
-          <div className="grid md:grid-cols-4 gap-4">
-
-            <div className="rounded-xl bg-black/30 p-5">
-
-              Input
-
-            </div>
-
-            <div className="rounded-xl bg-black/30 p-5">
-
-              AI
-
-            </div>
-
-            <div className="rounded-xl bg-black/30 p-5">
-
-              Process
-
-            </div>
-
-            <div className="rounded-xl bg-black/30 p-5">
-
-              Result
-
-            </div>
-
-          </div>
-
-        )}
-
-        {activeTab === "analytics" && (
-
-          <div>
-
-            <div className="h-72 rounded-3xl bg-gradient-to-r from-violet-600/20 to-blue-600/20 border border-white/10 flex items-center justify-center">
-
-              Analytics Dashboard Preview
-
-            </div>
-
-          </div>
-
-        )}
-
-        <div className="mt-10 flex flex-wrap gap-4">
-
-          <button
-            onClick={LaunchReuNexus}
-            className="px-8 py-4 rounded-2xl bg-violet-600 hover:bg-violet-500 transition font-semibold"
-          >
-
-            Launch ReuNexus
-
-          </button>
-
-          <button
-            onClick={StartProject}
-            className="px-8 py-4 rounded-2xl border border-white/10 hover:border-violet-500 transition"
-          >
-
-            Build Something Like This
-
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
+      </motion.article>
+    ))}
   </div>
-
-</section>
-
-{/* ================= HOW WE WORK ================= */}
-
-<section
-  id="process"
-  className="max-w-7xl mx-auto px-6 lg:px-8 py-32"
->
-
-  <motion.div
-    {...fadeIn}
-    className="text-center mb-20"
-  >
-
-    <span className="text-violet-400 uppercase tracking-[0.25em]">
-      Our Process
-    </span>
-
-    <h2 className="text-4xl md:text-6xl font-black mt-5">
-      From Idea To Launch
-    </h2>
-
-    <p className="mt-6 text-lg text-gray-400 max-w-3xl mx-auto leading-8">
-      Every successful project starts with understanding your
-      vision. We work closely with you from planning to deployment,
-      ensuring the final product meets your business goals.
-    </p>
-
-  </motion.div>
-
-  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-      <div className="text-5xl mb-5">💡</div>
-      <h3 className="text-2xl font-bold mb-4">
-        Discovery
-      </h3>
-      <p className="text-gray-400 leading-7">
-        We understand your business, goals,
-        challenges and ideas before writing
-        a single line of code.
-      </p>
-    </div>
-
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-      <div className="text-5xl mb-5">📐</div>
-      <h3 className="text-2xl font-bold mb-4">
-        Planning & Design
-      </h3>
-      <p className="text-gray-400 leading-7">
-        We create user experiences,
-        system architecture and project
-        roadmaps tailored to your needs.
-      </p>
-    </div>
-
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-      <div className="text-5xl mb-5">⚙️</div>
-      <h3 className="text-2xl font-bold mb-4">
-        Development
-      </h3>
-      <p className="text-gray-400 leading-7">
-        Our team builds fast,
-        secure and scalable solutions
-        using modern technologies.
-      </p>
-    </div>
-
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-      <div className="text-5xl mb-5">🧪</div>
-      <h3 className="text-2xl font-bold mb-4">
-        Testing
-      </h3>
-      <p className="text-gray-400 leading-7">
-        Every feature is tested for
-        performance, reliability,
-        responsiveness and usability.
-      </p>
-    </div>
-
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-      <div className="text-5xl mb-5">🚀</div>
-      <h3 className="text-2xl font-bold mb-4">
-        Deployment
-      </h3>
-      <p className="text-gray-400 leading-7">
-        We launch your project with
-        confidence and ensure everything
-        runs smoothly from day one.
-      </p>
-    </div>
-
-    <div className="rounded-3xl border border-violet-500/30 bg-gradient-to-br from-violet-500/10 to-transparent p-8">
-      <div className="text-5xl mb-5">🤝</div>
-      <h3 className="text-2xl font-bold mb-4">
-        Continuous Support
-      </h3>
-      <p className="text-gray-400 leading-7">
-        Technology evolves.
-        We continue improving,
-        maintaining and expanding
-        your solution as your business grows.
-      </p>
-    </div>
-
-  </div>
-
 </section>
 
 {/* ================= TECHNOLOGY ================= */}
 
 <section
   id="technology"
-  className="max-w-7xl mx-auto px-6 lg:px-8 pb-32"
+  className="relative z-10 mx-auto max-w-7xl px-6 py-32 lg:px-8"
 >
-
   <motion.div
     {...fadeIn}
-    className="text-center mb-16"
+    className="mx-auto mb-20 max-w-4xl text-center"
   >
-
-    <span className="text-violet-400 uppercase tracking-[0.25em]">
-      Technologies
+    <span className="text-sm uppercase tracking-[0.3em] text-violet-400">
+      Technology Stack
     </span>
 
-    <h2 className="text-4xl md:text-6xl font-black mt-5">
-      Built With Modern Technology
+    <h2 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
+      Modern Technologies
+      <span className="block text-violet-400">
+        Built For Performance
+      </span>
     </h2>
 
-    <p className="text-lg text-gray-400 max-w-3xl mx-auto mt-6">
-      We use industry-standard technologies
-      to build reliable, secure and scalable software.
+    <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-gray-400">
+      Every technology we use is selected to build secure,
+      scalable, maintainable software that supports long-term
+      business growth.
     </p>
-
   </motion.div>
 
-  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+  <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
 
     {[
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Node.js",
-      "Python",
-      "PostgreSQL",
-      "Docker",
-      "OpenAI",
-      "Tailwind CSS",
-      "Firebase",
-      "GitHub",
-      "Vercel",
-    ].map((tech) => (
+      {
+        title: "Artificial Intelligence",
+        icon: <BrainCircuit className="h-8 w-8" />,
+        technologies: "OpenAI • LLMs • AI Agents",
+        description:
+          "Intelligent assistants, business automation, document processing, and AI-powered customer experiences.",
+      },
+      {
+        title: "Frontend Engineering",
+        icon: <Globe className="h-8 w-8" />,
+        technologies: "React • Next.js • TypeScript",
+        description:
+          "Fast, responsive websites and web applications designed for modern businesses.",
+      },
+      {
+        title: "Backend Development",
+        icon: <Code2 className="h-8 w-8" />,
+        technologies: "Node.js • APIs • Databases",
+        description:
+          "Reliable business logic, scalable APIs, integrations, and secure data management.",
+      },
+      {
+        title: "Cloud Infrastructure",
+        icon: <Cloud className="h-8 w-8" />,
+        technologies: "Cloud Hosting • CDN • Deployment",
+        description:
+          "High availability, scalability, backups, monitoring, and secure deployment strategies.",
+      },
+      {
+        title: "Automation",
+        icon: <Workflow className="h-8 w-8" />,
+        technologies: "Business Workflows • Integrations",
+        description:
+          "Automate repetitive tasks, synchronize systems, and improve operational efficiency.",
+      },
+      {
+        title: "Security",
+        icon: <ShieldCheck className="h-8 w-8" />,
+        technologies: "Authentication • Encryption",
+        description:
+          "Security-first architecture designed to protect data, users, and business operations.",
+      },
+    ].map((tech, index) => (
 
-      <div
-        key={tech}
-        className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center font-semibold hover:border-violet-500 transition"
+      <motion.div
+        key={tech.title}
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: 0.55,
+          delay: index * 0.08,
+          ease: [0.16, 1, 0.3, 1],
+        }}
       >
-        {tech}
-      </div>
+
+        <AnimatedCard className="h-full p-8">
+
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-500/10 text-violet-300">
+
+            {tech.icon}
+
+          </div>
+
+          <h3 className="mt-6 text-2xl font-bold">
+
+            {tech.title}
+
+          </h3>
+
+          <p className="mt-3 text-sm font-medium text-violet-300">
+
+            {tech.technologies}
+
+          </p>
+
+          <p className="mt-6 leading-7 text-gray-400">
+
+            {tech.description}
+
+          </p>
+
+        </AnimatedCard>
+
+      </motion.div>
 
     ))}
 
@@ -1367,725 +1195,408 @@ export default function Home() {
 
 </section>
 
-{/* ================= SERVICES ================= */}
+{/* ================= REMUAI ECOSYSTEM ================= */}
 
-<section
-  id="services"
-  className="max-w-7xl mx-auto px-6 lg:px-8 py-32"
->
+<section className="relative z-10 mx-auto max-w-7xl px-6 py-32 lg:px-8">
+  <div className="overflow-hidden rounded-[42px] border border-white/10 bg-black/50 p-8 backdrop-blur-2xl md:p-12 lg:p-16">
+    <motion.div
+      {...fadeIn}
+      className="mx-auto mb-16 max-w-4xl text-center"
+    >
+      <span className="text-sm uppercase tracking-[0.3em] text-violet-400">
+        The RemuAI Ecosystem
+      </span>
 
-  <motion.div
-    {...fadeIn}
-    className="text-center mb-20"
-  >
-
-    <span className="text-violet-400 uppercase tracking-[0.25em]">
-      Our Services
-    </span>
-
-    <h2 className="text-4xl md:text-6xl font-black mt-5">
-      Solutions Built Around Your Business
-    </h2>
-
-    <p className="mt-6 text-lg text-gray-400 max-w-3xl mx-auto leading-8">
-      Whether you're launching a startup,
-      modernizing your business or automating
-      operations, RemuAI delivers intelligent
-      software designed for real-world results.
-    </p>
-
-  </motion.div>
-
-  <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-
-    <AnimatedCard>
-
-      <div className="text-5xl mb-5">🌐</div>
-
-      <h3 className="text-2xl font-bold mb-4">
-        Professional Websites
-      </h3>
-
-      <p className="text-gray-400 leading-7">
-        Fast, responsive and modern business
-        websites built to attract customers
-        and strengthen your online presence.
-      </p>
-
-    </AnimatedCard>
-
-    <AnimatedCard>
-
-      <div className="text-5xl mb-5">💻</div>
-
-      <h3 className="text-2xl font-bold mb-4">
-        Web Applications
-      </h3>
-
-      <p className="text-gray-400 leading-7">
-        Powerful custom web applications,
-        dashboards and business systems
-        built specifically for your workflow.
-      </p>
-
-    </AnimatedCard>
-
-    <AnimatedCard>
-
-      <div className="text-5xl mb-5">🤖</div>
-
-      <h3 className="text-2xl font-bold mb-4">
-        AI Chatbots
-      </h3>
-
-      <p className="text-gray-400 leading-7">
-        Intelligent assistants that answer
-        customer questions, automate support
-        and improve engagement 24/7.
-      </p>
-
-    </AnimatedCard>
-
-    <AnimatedCard>
-
-      <div className="text-5xl mb-5">⚡</div>
-
-      <h3 className="text-2xl font-bold mb-4">
-        Business Automation
-      </h3>
-
-      <p className="text-gray-400 leading-7">
-        Eliminate repetitive work by connecting
-        AI with your existing tools and workflows.
-      </p>
-
-    </AnimatedCard>
-
-    <AnimatedCard>
-
-      <div className="text-5xl mb-5">📱</div>
-
-      <h3 className="text-2xl font-bold mb-4">
-        Mobile-Friendly Solutions
-      </h3>
-
-      <p className="text-gray-400 leading-7">
-        Every website and application is
-        optimized for phones, tablets
-        and desktop devices.
-      </p>
-
-    </AnimatedCard>
-
-    <AnimatedCard>
-
-      <div className="text-5xl mb-5">🛠️</div>
-
-      <h3 className="text-2xl font-bold mb-4">
-        Custom AI Solutions
-      </h3>
-
-      <p className="text-gray-400 leading-7">
-        Need something unique?
-        We design AI systems tailored
-        specifically to your business.
-      </p>
-
-    </AnimatedCard>
-
-  </div>
-
-</section>
-
-{/* ================= WHY CLIENTS CHOOSE US ================= */}
-
-<section
-  className="max-w-7xl mx-auto px-6 lg:px-8 pb-32"
->
-
-  <div className="rounded-[40px] border border-violet-500/20 bg-gradient-to-br from-violet-500/10 to-transparent p-12">
-
-    <div className="text-center mb-16">
-
-      <h2 className="text-4xl md:text-5xl font-black">
-
-        Why Businesses Choose RemuAI
-
+      <h2 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
+        One Company.
+        <span className="block text-violet-400">
+          Multiple Layers of Innovation.
+        </span>
       </h2>
 
-    </div>
-
-    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
-
-      <div>
-
-        <div className="text-5xl mb-4">
-          🚀
-        </div>
-
-        <h3 className="font-bold text-xl mb-3">
-          Fast Delivery
-        </h3>
-
-        <p className="text-gray-400">
-          Efficient development without
-          sacrificing quality.
-        </p>
-
-      </div>
-
-      <div>
-
-        <div className="text-5xl mb-4">
-          🔒
-        </div>
-
-        <h3 className="font-bold text-xl mb-3">
-          Secure
-        </h3>
-
-        <p className="text-gray-400">
-          Built with modern security
-          best practices.
-        </p>
-
-      </div>
-
-      <div>
-
-        <div className="text-5xl mb-4">
-          📈
-        </div>
-
-        <h3 className="font-bold text-xl mb-3">
-          Scalable
-        </h3>
-
-        <p className="text-gray-400">
-          Solutions that grow
-          alongside your business.
-        </p>
-
-      </div>
-
-      <div>
-
-        <div className="text-5xl mb-4">
-          🤝
-        </div>
-
-        <h3 className="font-bold text-xl mb-3">
-          Long-Term Support
-        </h3>
-
-        <p className="text-gray-400">
-          We continue supporting
-          your project after launch.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-{/* ================= PRICING ================= */}
-
-<section
-  id="pricing"
-  className="max-w-7xl mx-auto px-6 lg:px-8 py-32"
->
-
-  <motion.div
-    {...fadeIn}
-    className="text-center mb-20"
-  >
-
-    <span className="text-violet-400 uppercase tracking-[0.25em]">
-      Pricing
-    </span>
-
-    <h2 className="text-4xl md:text-6xl font-black mt-5">
-      Flexible Plans For Everyone
-    </h2>
-
-    <p className="mt-6 text-lg text-gray-400 max-w-3xl mx-auto">
-      Whether you're starting a personal project
-      or building enterprise software,
-      we have a plan that fits your needs.
-    </p>
-
-  </motion.div>
-
-  <PricingToggle onToggle={setIsYearlyPricing} />
-
-  <div className="grid lg:grid-cols-3 gap-8 mt-12">
-
-    <PricingCard
-      tier="starter"
-      name="Starter"
-      description="Perfect for learning and experimenting."
-      isYearly={isYearlyPricing}
-      monthlyPrice={0}
-      yearlyPrice={0}
-      buttonLabel="Start Free"
-      features={[
-        "AI Chat",
-        "Basic Models",
-        "Community Support",
-        "Limited Usage"
-      ]}
-      delay={0}
-    />
-
-    <PricingCard
-      tier="pro"
-      name="Professional"
-      description="Ideal for creators and businesses."
-      isYearly={isYearlyPricing}
-      monthlyPrice={20}
-      yearlyPrice={200}
-      buttonLabel="Upgrade"
-      isPopular
-      features={[
-        "Everything in Starter",
-        "Advanced AI",
-        "ReuNexus",
-        "Priority Support",
-        "Automation"
-      ]}
-      delay={0.15}
-    />
-
-    <PricingCard
-      tier="enterprise"
-      name="Enterprise"
-      description="Custom solutions for organizations."
-      isYearly={isYearlyPricing}
-      buttonLabel="Contact Us"
-      features={[
-        "Unlimited Usage",
-        "Dedicated Support",
-        "Custom Development",
-        "Private Deployment",
-        "Advanced Security"
-      ]}
-      delay={0.3}
-    />
-
-  </div>
-
-</section>
-
-{/* ================= CLIENT REVIEWS ================= */}
-
-<section className="max-w-7xl mx-auto px-6 lg:px-8 py-32">
-
-    <motion.div
-        {...fadeIn}
-        className="text-center mb-20"
-    >
-
-        <span className="text-violet-400 uppercase tracking-[0.25em]">
-
-            Client Experience
-
-        </span>
-
-        <h2 className="text-4xl md:text-6xl font-black mt-5">
-
-            Built To Earn Trust
-
-                </h2>
-
-        <p className="mt-6 text-lg text-gray-400">
-          Every successful digital product begins with understanding
-          your goals, your users and your business.
-        </p>
-
+      <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-gray-400">
+        RemuAI is being built as a technology ecosystem — combining services,
+        products, platforms, and future AI infrastructure into one connected
+        vision for business transformation.
+      </p>
     </motion.div>
 
-    <TestimonialCarousel />
+    <div className="grid gap-6 lg:grid-cols-4">
+      {[
+        {
+          step: "01",
+          title: "Services",
+          description:
+            "AI solutions, software engineering, automation, cloud deployment, and digital transformation for businesses.",
+        },
+        {
+          step: "02",
+          title: "Products",
+          description:
+            "ReuNexus leads the RemuAI product ecosystem as our flagship AI workspace.",
+        },
+        {
+          step: "03",
+          title: "Platforms",
+          description:
+            "Future tools for AI agents, automation, developer APIs, and enterprise workflows.",
+        },
+        {
+          step: "04",
+          title: "Infrastructure",
+          description:
+            "Long-term vision for AI infrastructure, business operating systems, and scalable enterprise technology.",
+        },
+      ].map((item, index) => (
+        <motion.div
+          key={item.title}
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{
+            duration: 0.55,
+            delay: index * 0.1,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-7 transition hover:border-violet-500/40 hover:bg-white/[0.06]"
+        >
+          <div className="mb-8 text-sm font-bold tracking-[0.3em] text-violet-400">
+            {item.step}
+          </div>
 
+          <h3 className="text-2xl font-bold">
+            {item.title}
+          </h3>
+
+          <p className="mt-4 leading-7 text-gray-400">
+            {item.description}
+          </p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
 </section>
 
-{/* ================= CONTACT ================= */}
+{/* ================= ENGINEERING PROCESS ================= */}
 
 <section
-className="max-w-7xl mx-auto px-6 lg:px-8 py-32"
+  id="process"
+  className="relative z-10 mx-auto max-w-7xl px-6 py-32 lg:px-8"
 >
+  <motion.div
+    {...fadeIn}
+    className="mx-auto mb-20 max-w-4xl text-center"
+  >
+    <span className="text-sm uppercase tracking-[0.3em] text-violet-400">
+      Engineering Process
+    </span>
 
-<div className="rounded-[40px] border border-violet-500/20 bg-gradient-to-br from-violet-500/10 to-transparent p-14">
+    <h2 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
+      From Vision to
+      <span className="block text-violet-400">
+        Intelligent Technology
+      </span>
+    </h2>
 
-<div className="grid lg:grid-cols-2 gap-16 items-center">
+    <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-gray-400">
+      Our process is built to reduce uncertainty, improve execution, and turn
+      business ideas into reliable technology products.
+    </p>
+  </motion.div>
 
-<div>
+  <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+    {[
+      {
+        step: "01",
+        title: "Strategy",
+        description:
+          "We understand your business goals, challenges, users, workflows, and opportunities for AI or automation.",
+      },
+      {
+        step: "02",
+        title: "Architecture",
+        description:
+          "We plan the system structure, user experience, integrations, database, cloud deployment, and future scalability.",
+      },
+      {
+        step: "03",
+        title: "Design",
+        description:
+          "We design interfaces that are clean, modern, accessible, and aligned with your brand and business objectives.",
+      },
+      {
+        step: "04",
+        title: "Development",
+        description:
+          "We build the solution using modern engineering practices, reliable code, AI integrations, APIs, and automation.",
+      },
+      {
+        step: "05",
+        title: "Testing & Launch",
+        description:
+          "We test responsiveness, performance, usability, reliability, and core workflows before deployment.",
+      },
+      {
+        step: "06",
+        title: "Support & Growth",
+        description:
+          "After launch, we help maintain, improve, and expand your technology as your business grows.",
+      },
+    ].map((item, index) => (
+      <motion.article
+        key={item.step}
+        initial={{ opacity: 0, y: 35 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{
+          duration: 0.55,
+          delay: index * 0.08,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+        className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-8 transition hover:border-violet-500/40 hover:bg-white/[0.06]"
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-violet-500/10 blur-3xl transition group-hover:bg-violet-500/20"
+        />
 
-<span className="uppercase tracking-[0.25em] text-violet-400">
+        <div className="relative">
+          <div className="mb-8 text-sm font-bold tracking-[0.3em] text-violet-400">
+            {item.step}
+          </div>
 
-Let's Build Together
+          <h3 className="text-2xl font-bold">
+            {item.title}
+          </h3>
 
-</span>
-
-<h2 className="text-5xl font-black mt-5 leading-tight">
-
-Need A Website,
-Web App,
-AI Chatbot
-Or Custom Software?
-
-</h2>
-
-<p className="mt-8 text-gray-400 text-lg leading-8">
-
-Whether you're launching a new business,
-modernizing an existing one, or integrating AI into
-your operations, RemuAI designs and builds
-professional websites, scalable web applications,
-AI chatbots, automation systems and custom software
-tailored to your goals.
-
-</p>
-
-<div className="mt-10 space-y-4">
-
-<div>
-
-📞 +971 564673090
-
-</div>
-
-<div>
-
-✉️ contact@remuai.com
-
-</div>
-
-<div>
-
-🌍 reunexus.space
-
-</div>
-
-</div>
-
-<div className="mt-8 rounded-2xl border border-violet-500/20 bg-violet-500/10 p-5">
-
-<p className="text-violet-300 font-semibold">
-✓ Free consultation
-</p>
-
-<p className="text-violet-300 font-semibold">
-✓ Project proposal within 48 hours
-</p>
-
-<p className="text-violet-300 font-semibold">
-✓ No-obligation quotation
-</p>
-
-</div>
-
-</div>
-
-<div className="rounded-3xl bg-black/30 border border-white/10 p-10">
-
-<h3 className="text-3xl font-bold">
-
-Why Work With RemuAI?
-
-</h3>
-
-<ul className="space-y-5 mt-8 text-gray-300">
-
-<li>✔ Modern business websites</li>
-
-<li>✔ Custom web applications</li>
-
-<li>✔ AI chatbots powered by leading AI models</li>
-
-<li>✔ Business workflow automation</li>
-
-<li>✔ API integrations & cloud solutions</li>
-
-<li>✔ Long-term maintenance & technical support</li>
-
-</ul>
-
-<button
-onClick={StartProject}
-className="mt-10 w-full py-4 rounded-2xl bg-violet-600 hover:bg-violet-500 transition font-semibold"
->
-
-Start Your Project
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
+          <p className="mt-4 leading-7 text-gray-400">
+            {item.description}
+          </p>
+        </div>
+      </motion.article>
+    ))}
+  </div>
 </section>
 
-{/* ================= FINAL CALL TO ACTION ================= */}
+{/* ================= WHY CHOOSE REMUAI ================= */}
 
-<section className="max-w-7xl mx-auto px-6 lg:px-8 py-32">
+<section className="relative z-10">
+  <WhyChooseRemuAI />
+</section>
 
-<div className="rounded-[48px] border border-violet-500/20 bg-gradient-to-br from-violet-600/20 via-violet-500/10 to-transparent p-16 text-center">
+{/* ================= OUR COMMITMENT ================= */}
 
-<motion.h2
-{...fadeIn}
-className="text-4xl md:text-6xl font-black leading-tight"
->
-
-Ready To Build Your Next Digital Product?
-
-</motion.h2>
-
-<motion.p
-{...fadeIn}
-className="mt-8 max-w-3xl mx-auto text-xl text-gray-300 leading-8"
->
-
-Whether you're starting with an idea or improving an
-existing solution, RemuAI helps businesses design,
-build and deploy websites, web applications,
-AI chatbots, automation systems and custom software
-that deliver real business value.
-
-</motion.p>
-
-<div className="flex flex-wrap justify-center gap-5 mt-12">
-
-<button
-onClick={StartProject}
-className="px-10 py-5 rounded-2xl bg-violet-600 hover:bg-violet-500 transition font-semibold"
->
-
-Start Your Project
-
-</button>
-
-<button
-onClick={LaunchReuNexus}
-className="px-10 py-5 rounded-2xl border border-white/10 hover:border-violet-500 transition"
->
-
-Explore ReuNexus
-
-</button>
-
-</div>
-
-</div>
-
+<section className="relative z-10">
+  <OurCommitment />
 </section>
 
 {/* ================= FAQ ================= */}
 
 <section
-id="faq"
-className="max-w-5xl mx-auto px-6 lg:px-8 pb-32"
+  id="faq"
+  className="relative z-10 mx-auto max-w-5xl px-6 py-32 lg:px-8"
 >
 
-<motion.div
-{...fadeIn}
-className="text-center mb-20"
->
+  <motion.div
+    {...fadeIn}
+    className="mb-20 text-center"
+  >
 
-<span className="uppercase tracking-[0.25em] text-violet-400">
+    <span className="text-sm uppercase tracking-[0.3em] text-violet-400">
 
-Frequently Asked Questions
+      Frequently Asked Questions
 
-</span>
+    </span>
 
-<h2 className="text-4xl md:text-5xl font-black mt-5">
+    <h2 className="mt-6 text-4xl font-black md:text-6xl">
 
-Questions? We've Got Answers.
+      Questions Before
+      <span className="block text-violet-400">
 
-</h2>
+        Your Project Begins
 
-<p className="mt-6 text-lg text-gray-400">
+      </span>
 
-Everything you need to know before
-working with RemuAI.
+    </h2>
 
-</p>
+    <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-gray-400">
 
-</motion.div>
+      We've answered some of the most common questions about
+      RemuAI, our services, ReuNexus, and how we work with
+      businesses.
 
-<FAQAccordion />
+    </p>
+
+  </motion.div>
+
+  <FAQAccordion />
 
 </section>
 
 {/* ================= FOOTER ================= */}
 
-<footer className="border-t border-white/10 bg-black">
-
-<div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
-
-<div className="grid lg:grid-cols-4 gap-12">
-
-{/* Brand */}
-
-<div>
-
-<h2 className="text-4xl font-black">
-
-Remu<span className="text-violet-500">AI</span>
-
-</h2>
-
-<p className="mt-6 text-gray-400 leading-8">
-
-RemuAI builds professional websites,
-scalable web applications, AI chatbots,
-automation systems and custom software
-for businesses looking to innovate and grow.
-
-</p>
-
-</div>
-
-{/* Services */}
-
-<div>
-
-<h3 className="font-bold text-xl mb-6">
-
-Services
-
-</h3>
-
-<div className="space-y-3 text-gray-400">
-
-<p>Professional Websites</p>
-<p>Web Applications</p>
-<p>AI Chatbots</p>
-<p>Business Automation</p>
-<p>Custom Software Development</p>
-
-</div>
-
-</div>
-
-{/* Products */}
-
-<div>
-
-<h3 className="font-bold text-xl mb-6">
-
-Products
-
-</h3>
-
-<div className="space-y-3 text-gray-400">
-
-<button
-onClick={LaunchReuNexus}
-className="hover:text-white transition"
->
-
-ReuNexus
-
-</button>
-
-<p>AI Workspace</p>
-<p>AI Assistants</p>
-<p>Automation Platform</p>
-
-</div>
-
-</div>
-
-{/* Contact */}
-
-<div>
-
-<h3 className="font-bold text-xl mb-6">
-
-Contact
-
-</h3>
-
-<div className="space-y-4 text-gray-400">
-
-<p>📞 +971 564673090</p>
-
-<p>✉️ contact@remuai.com</p>
-
-<button
-onClick={LaunchReuNexus}
-className="hover:text-white transition"
->
-
-🌐 reunexus.space
-
-</button>
-
-<p>Available Monday – Saturday</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div className="border-t border-white/10 mt-16 pt-8">
-
-<div className="text-center mb-8">
-
-<p className="text-gray-400">
-
-Helping businesses build modern digital experiences
-through web technologies, automation and artificial intelligence.
-
-</p>
-
-</div>
-
-<div className="flex flex-col md:flex-row justify-between items-center gap-6">
-
-<p className="text-gray-500 text-center">
-
-© {new Date().getFullYear()} RemuAI.
-All rights reserved.
-
-</p>
-
-<div className="flex gap-8 text-gray-400">
-
-<a href="#features" className="hover:text-white">
-Features
-</a>
-
-<a href="#services" className="hover:text-white">
-Services
-</a>
-
-<a href="#pricing" className="hover:text-white">
-Pricing
-</a>
-
-<a href="#faq" className="hover:text-white">
-FAQ
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+<footer className="relative z-10 border-t border-white/10 bg-black/70 px-6 py-20 backdrop-blur-2xl lg:px-8">
+  <div className="mx-auto max-w-7xl">
+
+    {/* Footer Statement */}
+    <div className="mb-16 max-w-4xl">
+      <h2 className="text-4xl font-black leading-tight md:text-6xl">
+        Building the Future of
+        <span className="block text-violet-400">
+          Business Technology.
+        </span>
+      </h2>
+
+      <p className="mt-6 max-w-2xl text-lg leading-8 text-gray-400">
+        RemuAI combines artificial intelligence, software engineering,
+        automation, cloud technologies, and product thinking to help businesses
+        create technology that is useful today and scalable for tomorrow.
+      </p>
+    </div>
+
+    {/* Footer Grid */}
+    <div className="grid gap-12 border-t border-white/10 pt-12 md:grid-cols-2 lg:grid-cols-4">
+
+      {/* Brand */}
+      <div>
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-violet-500/30 bg-violet-500/10">
+            <Sparkles className="h-5 w-5 text-violet-300" />
+          </div>
+
+          <div>
+            <h3 className="text-xl font-black">
+              Remu<span className="text-violet-400">AI</span>
+            </h3>
+
+            <p className="text-xs text-gray-500">
+              {COMPANY.tagline}
+            </p>
+          </div>
+        </div>
+
+        <p className="mt-6 leading-7 text-gray-400">
+          An AI and technology company building intelligent software,
+          automation systems, cloud-ready platforms, and digital products
+          for modern businesses.
+        </p>
+      </div>
+
+      {/* Company */}
+      <div>
+        <h4 className="mb-6 font-bold text-white">
+          Company
+        </h4>
+
+        <div className="space-y-3 text-gray-400">
+          <Link href="#home" className="block transition hover:text-white">
+            Home
+          </Link>
+
+          <Link href="#solutions" className="block transition hover:text-white">
+            Solutions
+          </Link>
+
+          <Link href="#industries" className="block transition hover:text-white">
+            Industries
+          </Link>
+
+          <Link href="#technology" className="block transition hover:text-white">
+            Technology
+          </Link>
+
+          <Link href="#faq" className="block transition hover:text-white">
+            FAQ
+          </Link>
+        </div>
+      </div>
+
+      {/* Solutions */}
+      <div>
+        <h4 className="mb-6 font-bold text-white">
+          Solutions
+        </h4>
+
+        <div className="space-y-3 text-gray-400">
+          <p>AI Solutions</p>
+          <p>Software Engineering</p>
+          <p>Web Platforms</p>
+          <p>Business Automation</p>
+          <p>Cloud Solutions</p>
+          <p>
+            Cybersecurity
+            <span className="ml-2 rounded-full bg-cyan-500/10 px-2 py-0.5 text-xs text-cyan-300">
+              Soon
+            </span>
+          </p>
+        </div>
+      </div>
+
+      {/* Product + Contact */}
+      <div>
+        <h4 className="mb-6 font-bold text-white">
+          Product & Contact
+        </h4>
+
+        <div className="space-y-4 text-gray-400">
+          <button
+            onClick={LaunchReuNexus}
+            className="block text-left transition hover:text-white"
+          >
+            ReuNexus Workspace
+          </button>
+
+          <a
+            href={`mailto:${COMPANY.email}`}
+            className="block transition hover:text-white"
+          >
+            {COMPANY.email}
+          </a>
+
+          <a
+            href={`tel:${COMPANY.phone.replace(/\s/g, "")}`}
+            className="block transition hover:text-white"
+          >
+            {COMPANY.phone}
+          </a>
+
+          <p>Worldwide Remote Services</p>
+          <p>Based in the UAE</p>
+        </div>
+      </div>
+
+    </div>
+
+    {/* Bottom */}
+    <div className="mt-12 flex flex-col gap-6 border-t border-white/10 pt-8 text-sm text-gray-500 md:flex-row md:items-center md:justify-between">
+      <p>
+        © {new Date().getFullYear()} RemuAI. All rights reserved.
+      </p>
+
+      <div className="flex flex-wrap gap-6">
+        <Link href="#home" className="transition hover:text-white">
+          Back to Top
+        </Link>
+
+        <button
+          onClick={StartProject}
+          className="transition hover:text-white"
+        >
+          Start a Project
+        </button>
+
+        <button
+          onClick={LaunchReuNexus}
+          className="transition hover:text-white"
+        >
+          Open ReuNexus
+        </button>
+      </div>
+    </div>
+
+  </div>
 </footer>
 
-</main>
-
-);
-
+    </main>
+  );
 }
