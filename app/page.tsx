@@ -128,14 +128,14 @@ export default function Home() {
       >
         {/* Background image */}
         <div
-          className="
-            absolute inset-0
-            bg-[url('/remuai-hero-bg.jpg')]
-            bg-cover
-            bg-center
-            opacity-35
-          "
-        />
+  className="
+    absolute inset-0
+    bg-[url('/remuai-hero-bg.png')]
+    bg-cover
+    bg-center
+    opacity-35
+"
+/>
 
         {/* Dark overlay for readability */}
         <div className="absolute inset-0 bg-black/75" />
