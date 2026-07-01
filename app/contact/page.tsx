@@ -8,7 +8,6 @@ export default function ContactPage() {
   const [form, setForm] = useState({
     name: "",
     company: "",
-
     email: "",
     phone: "",
     projectType: "",
@@ -52,21 +51,31 @@ export default function ContactPage() {
       .from("project_inquiries")
       .insert(payload);
 
-    setLoading(false);
-
     if (error) {
-  setErrorMessage("Unable to submit your inquiry. Please try again.");
-  return;
-}
-  await fetch("/api/whatsapp", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify(payload),
-});
-  
+      setLoading(false);
+      setErrorMessage("Unable to submit your inquiry. Please try again.");
+      return;
+    }
+
+    const whatsappRes = await fetch("/api/whatsapp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const whatsappData = await whatsappRes.json();
+    console.log("WhatsApp response:", whatsappData);
+
+    if (!whatsappRes.ok) {
+      setLoading(false);
+      setErrorMessage("Inquiry saved, but WhatsApp notification failed.");
+      return;
+    }
+
     setSuccess(true);
+    setLoading(false);
 
     setForm({
       name: "",
@@ -81,43 +90,41 @@ export default function ContactPage() {
 
   return (
     <main className="min-h-screen bg-black text-white">
-      <section className="relative overflow-hidden py-28 px-6">
+      <section className="relative overflow-hidden px-6 py-28">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#7c3aed30,transparent_65%)]" />
 
-        <div className="relative max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="uppercase tracking-[0.3em] text-violet-400 text-sm">
+        <div className="relative mx-auto max-w-6xl">
+          <div className="mb-16 text-center">
+            <span className="text-sm uppercase tracking-[0.3em] text-violet-400">
               Contact RemuAI
             </span>
 
-            <h1 className="text-5xl md:text-7xl font-bold mt-6">
+            <h1 className="mt-6 text-5xl font-bold md:text-7xl">
               Tell Us About Your Project
             </h1>
 
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto mt-6">
+            <p className="mx-auto mt-6 max-w-3xl text-xl text-gray-400">
               Share your project details and RemuAI will review your inquiry.
               We usually respond within one business day.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-10">
+          <div className="grid gap-10 lg:grid-cols-3">
             <div className="space-y-6">
               <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                <Mail className="text-violet-400 mb-4" />
+                <Mail className="mb-4 text-violet-400" />
 
-                <h3 className="font-bold text-xl">Company Email</h3>
+                <h3 className="text-xl font-bold">Company Email</h3>
 
-                <p className="text-gray-400 mt-2">
-                  contact@remuai.space
-                </p>
+                <p className="mt-2 text-gray-400">contact@remuai.space</p>
               </div>
 
               <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                <Globe className="text-violet-400 mb-4" />
+                <Globe className="mb-4 text-violet-400" />
 
-                <h3 className="font-bold text-xl">Solutions</h3>
+                <h3 className="text-xl font-bold">Solutions</h3>
 
-                <ul className="text-gray-400 mt-3 space-y-2">
+                <ul className="mt-3 space-y-2 text-gray-400">
                   <li>AI Solutions</li>
                   <li>Web Applications</li>
                   <li>Professional Websites</li>
@@ -128,11 +135,11 @@ export default function ContactPage() {
               </div>
 
               <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-                <Phone className="text-violet-400 mb-4" />
+                <Phone className="mb-4 text-violet-400" />
 
-                <h3 className="font-bold text-xl">Response Time</h3>
+                <h3 className="text-xl font-bold">Response Time</h3>
 
-                <p className="text-gray-400 mt-2">
+                <p className="mt-2 text-gray-400">
                   Our team usually replies within one business day.
                 </p>
               </div>
@@ -141,16 +148,16 @@ export default function ContactPage() {
             <div className="lg:col-span-2">
               <form
                 onSubmit={handleSubmit}
-                className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl space-y-6"
+                className="space-y-6 rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl"
               >
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid gap-6 md:grid-cols-2">
                   <input
                     name="name"
                     value={form.name}
                     onChange={handleChange}
                     placeholder="Full Name *"
                     required
-                    className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                    className="rounded-xl border border-white/10 bg-black p-4 outline-none focus:border-violet-500"
                   />
 
                   <input
@@ -158,11 +165,11 @@ export default function ContactPage() {
                     value={form.company}
                     onChange={handleChange}
                     placeholder="Company"
-                    className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                    className="rounded-xl border border-white/10 bg-black p-4 outline-none focus:border-violet-500"
                   />
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid gap-6 md:grid-cols-2">
                   <input
                     name="email"
                     type="email"
@@ -170,7 +177,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     placeholder="Email Address *"
                     required
-                    className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                    className="rounded-xl border border-white/10 bg-black p-4 outline-none focus:border-violet-500"
                   />
 
                   <input
@@ -179,17 +186,17 @@ export default function ContactPage() {
                     onChange={handleChange}
                     placeholder="Phone / WhatsApp *"
                     required
-                    className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                    className="rounded-xl border border-white/10 bg-black p-4 outline-none focus:border-violet-500"
                   />
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid gap-6 md:grid-cols-2">
                   <select
                     name="projectType"
                     value={form.projectType}
                     onChange={handleChange}
                     required
-                    className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                    className="rounded-xl border border-white/10 bg-black p-4 outline-none focus:border-violet-500"
                   >
                     <option value="">Project Type *</option>
                     <option>AI Solution</option>
@@ -205,7 +212,7 @@ export default function ContactPage() {
                     name="budget"
                     value={form.budget}
                     onChange={handleChange}
-                    className="rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                    className="rounded-xl border border-white/10 bg-black p-4 outline-none focus:border-violet-500"
                   >
                     <option value="">Estimated Budget</option>
                     <option>Under $1000</option>
@@ -222,25 +229,22 @@ export default function ContactPage() {
                   onChange={handleChange}
                   placeholder="Tell us about your project *"
                   required
-                  className="w-full rounded-xl bg-black border border-white/10 p-4 outline-none focus:border-violet-500"
+                  className="w-full rounded-xl border border-white/10 bg-black p-4 outline-none focus:border-violet-500"
                 />
 
-                {errorMessage && (
-                  <p className="text-red-400">
-                    {errorMessage}
-                  </p>
-                )}
+                {errorMessage && <p className="text-red-400">{errorMessage}</p>}
 
                 {success && (
                   <p className="text-green-400">
-                    Your inquiry has been received. RemuAI will contact you shortly.
+                    Your inquiry has been received. RemuAI will contact you
+                    shortly.
                   </p>
                 )}
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-violet-600 hover:bg-violet-500 transition rounded-xl py-4 font-semibold flex justify-center items-center gap-3 disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-3 rounded-xl bg-violet-600 py-4 font-semibold transition hover:bg-violet-500 disabled:opacity-60"
                 >
                   <Send size={18} />
                   {loading ? "Submitting..." : "Submit Project Inquiry"}
