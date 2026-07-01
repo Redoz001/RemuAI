@@ -39,13 +39,28 @@ export default function ProjectInquiryModal({
       .from('project_inquiries')
       .insert(payload);
 
-    setLoading(false);
-
     if (error) {
+      setLoading(false);
       alert('Something went wrong. Please try again.');
       return;
     }
 
+    const whatsappRes = await fetch('/api/whatsapp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const whatsappData = await whatsappRes.json();
+
+    if (!whatsappRes.ok) {
+      console.error('WhatsApp error:', whatsappData);
+      alert('Inquiry saved, but WhatsApp notification failed.');
+    }
+
+    setLoading(false);
     setSuccess(true);
   }
 
@@ -56,6 +71,7 @@ export default function ProjectInquiryModal({
           onClick={onClose}
           className="absolute right-5 top-5 rounded-xl border border-white/10 bg-white/5 p-2 text-gray-400 hover:text-white"
           aria-label="Close form"
+          type="button"
         >
           <X className="h-5 w-5" />
         </button>
@@ -76,6 +92,7 @@ export default function ProjectInquiryModal({
             <button
               onClick={onClose}
               className="mt-8 rounded-xl bg-violet-600 px-6 py-3 font-semibold hover:bg-violet-500"
+              type="button"
             >
               Close
             </button>
@@ -96,17 +113,43 @@ export default function ProjectInquiryModal({
 
             <form onSubmit={handleSubmit} className="mt-8 space-y-5">
               <div className="grid gap-5 md:grid-cols-2">
-                <input name="full_name" required placeholder="Full name *" className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500" />
-                <input name="company" placeholder="Company" className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500" />
+                <input
+                  name="full_name"
+                  required
+                  placeholder="Full name *"
+                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500"
+                />
+
+                <input
+                  name="company"
+                  placeholder="Company"
+                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500"
+                />
               </div>
 
               <div className="grid gap-5 md:grid-cols-2">
-                <input name="email" type="email" required placeholder="Email *" className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500" />
-                <input name="phone" required placeholder="Phone / WhatsApp *" className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500" />
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Email *"
+                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500"
+                />
+
+                <input
+                  name="phone"
+                  required
+                  placeholder="Phone / WhatsApp *"
+                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500"
+                />
               </div>
 
               <div className="grid gap-5 md:grid-cols-2">
-                <select name="service" required className="rounded-xl border border-white/10 bg-black px-4 py-3 outline-none focus:border-violet-500">
+                <select
+                  name="service"
+                  required
+                  className="rounded-xl border border-white/10 bg-black px-4 py-3 outline-none focus:border-violet-500"
+                >
                   <option value="">Service needed *</option>
                   <option>AI Solution</option>
                   <option>Website</option>
@@ -117,7 +160,10 @@ export default function ProjectInquiryModal({
                   <option>Custom Software</option>
                 </select>
 
-                <select name="budget" className="rounded-xl border border-white/10 bg-black px-4 py-3 outline-none focus:border-violet-500">
+                <select
+                  name="budget"
+                  className="rounded-xl border border-white/10 bg-black px-4 py-3 outline-none focus:border-violet-500"
+                >
                   <option value="">Project budget</option>
                   <option>Under $1000</option>
                   <option>$1000 - $2,000</option>
