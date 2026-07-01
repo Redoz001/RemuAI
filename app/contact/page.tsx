@@ -8,6 +8,7 @@ export default function ContactPage() {
   const [form, setForm] = useState({
     name: "",
     company: "",
+
     email: "",
     phone: "",
     projectType: "",
@@ -57,7 +58,14 @@ export default function ContactPage() {
   setErrorMessage("Unable to submit your inquiry. Please try again.");
   return;
 }
-
+  await fetch("/api/whatsapp", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(payload),
+});
+  
     setSuccess(true);
 
     setForm({
