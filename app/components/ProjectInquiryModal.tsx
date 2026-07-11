@@ -1,196 +1,235 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { X, CheckCircle2, Send } from 'lucide-react';
-import { supabase } from '../lib/supabase';
-import AnimatedButton from './AnimatedButton';
+import {
+  type FormEvent,
+  useEffect,
+  useRef,
+} from "react";
 
-interface ProjectInquiryModalProps {
+import {
+  ArrowRight,
+  Mail,
+  X,
+} from "lucide-react";
+
+import {
+  COMPANY,
+} from "../lib/site-content";
+
+type ProjectInquiryModalProps = {
   open: boolean;
   onClose: () => void;
-}
+};
 
 export default function ProjectInquiryModal({
   open,
   onClose,
 }: ProjectInquiryModalProps) {
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const dialogRef =
+    useRef<HTMLDialogElement>(null);
 
-  if (!open) return null;
+  useEffect(() => {
+    const dialog =
+      dialogRef.current;
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setLoading(true);
-
-    const formData = new FormData(event.currentTarget);
-
-    const payload = {
-      full_name: String(formData.get('full_name') || ''),
-      company: String(formData.get('company') || ''),
-      email: String(formData.get('email') || ''),
-      phone: String(formData.get('phone') || ''),
-      service: String(formData.get('service') || ''),
-      budget: String(formData.get('budget') || ''),
-      description: String(formData.get('description') || ''),
-    };
-
-    const { error } = await supabase
-      .from('project_inquiries')
-      .insert(payload);
-
-    if (error) {
-      setLoading(false);
-      alert('Something went wrong. Please try again.');
+    if (!dialog) {
       return;
     }
 
-    const whatsappRes = await fetch('/api/whatsapp', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const whatsappData = await whatsappRes.json();
-
-    if (!whatsappRes.ok) {
-      console.error('WhatsApp error:', whatsappData);
-      alert('Inquiry saved, but WhatsApp notification failed.');
+    if (open && !dialog.open) {
+      dialog.showModal();
+    } else if (!open && dialog.open) {
+      dialog.close();
     }
+  }, [open]);
 
-    setLoading(false);
-    setSuccess(true);
-  }
+  const submitInquiry = (
+    event: FormEvent<HTMLFormElement>,
+  ) => {
+    event.preventDefault();
+
+    const data =
+      new FormData(event.currentTarget);
+
+    const name =
+      String(data.get("name") ?? "").trim();
+
+    const email =
+      String(data.get("email") ?? "").trim();
+
+    const organisation =
+      String(
+        data.get("organisation") ?? "",
+      ).trim();
+
+    const challenge =
+      String(
+        data.get("challenge") ?? "",
+      ).trim();
+
+    const subject =
+      encodeURIComponent(
+        `Project enquiry from ${
+          name ||
+          "a RemuAI website visitor"
+        }`,
+      );
+
+    const body =
+      encodeURIComponent(
+        [
+          `Name: ${name}`,
+          `Email: ${email}`,
+          `Organisation: ${
+            organisation ||
+            "Not provided"
+          }`,
+          "",
+          "Challenge or opportunity:",
+          challenge,
+        ].join("\n"),
+      );
+
+    window.location.href =
+      `mailto:${COMPANY.email}` +
+      `?subject=${subject}` +
+      `&body=${body}`;
+
+    onClose();
+  };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 px-6 backdrop-blur-xl">
-      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-white/10 bg-black p-8 shadow-2xl shadow-violet-600/20">
-        <button
-          onClick={onClose}
-          className="absolute right-5 top-5 rounded-xl border border-white/10 bg-white/5 p-2 text-gray-400 hover:text-white"
-          aria-label="Close form"
-          type="button"
-        >
-          <X className="h-5 w-5" />
-        </button>
-
-        {success ? (
-          <div className="py-16 text-center">
-            <CheckCircle2 className="mx-auto h-16 w-16 text-emerald-400" />
-
-            <h2 className="mt-6 text-3xl font-black">
-              Thank you for contacting RemuAI.
-            </h2>
-
-            <p className="mx-auto mt-4 max-w-md text-gray-400">
-              Our team has received your project inquiry. We usually respond
-              within one business day.
+    <dialog
+      ref={dialogRef}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
+      onClose={onClose}
+      className="m-auto w-[min(92vw,680px)] rounded-[30px] border border-white/10 bg-[#0c0c0c] p-0 text-white shadow-[0_40px_160px_rgba(0,0,0,0.7)] backdrop:bg-black/70 backdrop:backdrop-blur-sm"
+      aria-labelledby="project-inquiry-title"
+    >
+      <div className="border-b border-white/10 px-6 py-5 sm:px-8">
+        <div className="flex items-start justify-between gap-6">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-violet-300">
+              Project enquiry
             </p>
 
-            <button
-              onClick={onClose}
-              className="mt-8 rounded-xl bg-violet-600 px-6 py-3 font-semibold hover:bg-violet-500"
-              type="button"
+            <h2
+              id="project-inquiry-title"
+              className="mt-2 text-2xl font-black tracking-[-0.03em] sm:text-3xl"
             >
-              Close
-            </button>
-          </div>
-        ) : (
-          <>
-            <span className="text-sm uppercase tracking-[0.3em] text-violet-400">
-              Start a Project
-            </span>
-
-            <h2 className="mt-4 text-3xl font-black">
-              Tell us about your project
+              Bring us the pressure point.
             </h2>
+          </div>
 
-            <p className="mt-3 text-gray-400">
-              Share your details and RemuAI will review your inquiry.
-            </p>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 transition hover:bg-white/[0.08] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
+          >
+            <X
+              className="h-5 w-5"
+              aria-hidden="true"
+            />
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-              <div className="grid gap-5 md:grid-cols-2">
-                <input
-                  name="full_name"
-                  required
-                  placeholder="Full name *"
-                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500"
-                />
+            <span className="sr-only">
+              Close project enquiry
+            </span>
+          </button>
+        </div>
 
-                <input
-                  name="company"
-                  placeholder="Company"
-                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500"
-                />
-              </div>
-
-              <div className="grid gap-5 md:grid-cols-2">
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="Email *"
-                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500"
-                />
-
-                <input
-                  name="phone"
-                  required
-                  placeholder="Phone / WhatsApp *"
-                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500"
-                />
-              </div>
-
-              <div className="grid gap-5 md:grid-cols-2">
-                <select
-                  name="service"
-                  required
-                  className="rounded-xl border border-white/10 bg-black px-4 py-3 outline-none focus:border-violet-500"
-                >
-                  <option value="">Service needed *</option>
-                  <option>AI Solution</option>
-                  <option>Website</option>
-                  <option>Web Application</option>
-                  <option>AI Chatbot</option>
-                  <option>Automation</option>
-                  <option>Cloud Solution</option>
-                  <option>Custom Software</option>
-                </select>
-
-                <select
-                  name="budget"
-                  className="rounded-xl border border-white/10 bg-black px-4 py-3 outline-none focus:border-violet-500"
-                >
-                  <option value="">Project budget</option>
-                  <option>Under $1000</option>
-                  <option>$1000 - $2,000</option>
-                  <option>$2,000 - $10,000</option>
-                  <option>$10,000+</option>
-                </select>
-              </div>
-
-              <textarea
-                name="description"
-                required
-                rows={5}
-                placeholder="Describe your project *"
-                className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-violet-500"
-              />
-
-              <AnimatedButton
-                text="Submit Project Inquiry"
-                type="submit"
-                loading={loading}
-                icon={<Send className="h-5 w-5" />}
-                className="w-full"
-              />
-            </form>
-          </>
-        )}
+        <p className="mt-4 max-w-xl leading-7 text-stone-400">
+          A short description is enough.
+          Submitting opens your email
+          application with the details
+          prepared for review before you
+          send them.
+        </p>
       </div>
-    </div>
+
+      <form
+        onSubmit={submitInquiry}
+        className="grid gap-5 px-6 py-6 sm:grid-cols-2 sm:px-8 sm:py-8"
+      >
+        <label className="grid gap-2 text-sm font-semibold text-stone-200">
+          Name
+
+          <input
+            name="name"
+            required
+            autoComplete="name"
+            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20"
+            placeholder="Your name"
+          />
+        </label>
+
+        <label className="grid gap-2 text-sm font-semibold text-stone-200">
+          Email
+
+          <input
+            name="email"
+            required
+            type="email"
+            autoComplete="email"
+            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20"
+            placeholder="you@company.com"
+          />
+        </label>
+
+        <label className="grid gap-2 text-sm font-semibold text-stone-200 sm:col-span-2">
+          Organisation{" "}
+          <span className="font-normal text-stone-500">
+            (optional)
+          </span>
+
+          <input
+            name="organisation"
+            autoComplete="organization"
+            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20"
+            placeholder="Company or organisation"
+          />
+        </label>
+
+        <label className="grid gap-2 text-sm font-semibold text-stone-200 sm:col-span-2">
+          What is creating pressure?
+
+          <textarea
+            name="challenge"
+            required
+            rows={6}
+            className="resize-y rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20"
+            placeholder="Describe the workflow, product idea, customer problem, system, or decision you want to improve."
+          />
+        </label>
+
+        <div className="flex flex-col-reverse gap-3 pt-2 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
+          <a
+            href={`mailto:${COMPANY.email}`}
+            className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-stone-400 transition hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
+          >
+            <Mail
+              className="h-4 w-4"
+              aria-hidden="true"
+            />
+
+            Email directly
+          </a>
+
+          <button
+            type="submit"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 font-black text-black transition hover:bg-stone-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
+          >
+            Prepare Email
+
+            <ArrowRight
+              className="h-4 w-4"
+              aria-hidden="true"
+            />
+          </button>
+        </div>
+      </form>
+    </dialog>
   );
 }

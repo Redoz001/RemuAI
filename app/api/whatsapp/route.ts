@@ -9,7 +9,7 @@ export async function POST(req: Request) {
 Name: ${body.full_name}
 Company: ${body.company || "N/A"}
 Email: ${body.email}
-Phone: ${body.phone}
+Phone: ${body.phone || "N/A"}
 Service: ${body.service}
 Budget: ${body.budget || "N/A"}
 

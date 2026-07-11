@@ -1,119 +1,82 @@
-'use client';
+const faqs = [
+  {
+    question:
+      "What does RemuAI build?",
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+    answer:
+      "RemuAI designs and engineers digital products, business systems, workflow automation, cloud platforms, and practical AI solutions. The exact shape depends on the operating problem, users, risk, and long-term ownership needs.",
+  },
+  {
+    question:
+      "Do we need a complete specification before contacting you?",
 
-interface FAQItem {
-  id: string;
-  question: string;
-  answer: string;
-}
+    answer:
+      "No. A broken workflow, customer problem, product idea, difficult handoff, or system that no longer fits the business is enough to begin. The first stage is used to clarify the problem and define a sensible path.",
+  },
+  {
+    question:
+      "Does every RemuAI project use artificial intelligence?",
 
-const faqItems: FAQItem[] = [
-  {
-    id: 'services',
-    question: 'What services does RemuAI provide?',
     answer:
-      'RemuAI provides AI solutions, custom software development, web applications, professional websites, AI chatbots, business automation, API integrations, cloud solutions, digital transformation consulting, and long-term technical support.',
+      "No. AI is used only when it has a clear job, reliable information, appropriate boundaries, and measurable value. Many problems are better solved through clearer software, integrations, workflow design, or simpler operating rules.",
   },
   {
-    id: 'reunexus',
-    question: 'What is ReuNexus?',
+    question:
+      "What is ReuNexus?",
+
     answer:
-      'ReuNexus is RemuAI’s flagship AI platform. It brings together AI tools, intelligent assistants, automation, productivity features, and future AI capabilities into one unified workspace.',
+      "ReuNexus is the flagship product in the RemuAI ecosystem. It is an evolving workspace for assistants, productivity tools, and knowledge work, and it demonstrates how RemuAI approaches product design and practical AI internally.",
   },
   {
-    id: 'custom',
-    question: 'Do you build custom business solutions?',
+    question:
+      "Can RemuAI improve an existing system instead of replacing it?",
+
     answer:
-      'Yes. RemuAI builds tailored solutions based on each client’s goals, workflows, and technical needs. This can include business dashboards, portals, AI assistants, automation systems, internal tools, and full web applications.',
+      "Yes. Modernisation can happen in controlled stages. RemuAI can assess the current system, preserve what still works, reduce risk, and introduce stronger architecture, integrations, interfaces, or operational controls over time.",
   },
   {
-    id: 'chatbots',
-    question: 'Can RemuAI build AI chatbots or AI agents?',
+    question:
+      "How does a project usually begin?",
+
     answer:
-      'Yes. We build AI chatbots and intelligent assistants that can answer customer questions, automate support, capture leads, connect with business tools, and improve customer experience.',
+      "A first conversation focuses on the current pressure, users, constraints, dependencies, urgency, and intended outcome. From there, RemuAI can recommend clarification, product delivery, modernisation, or ongoing engineering support.",
   },
-  {
-    id: 'websites',
-    question: 'Does RemuAI only build AI products?',
-    answer:
-      'No. AI is central to our vision, but RemuAI also builds professional websites, web applications, business systems, cloud-connected platforms, automation workflows, and custom software for companies that want to modernize their operations.',
-  },
-  {
-    id: 'coming-soon',
-    question: 'Are all RemuAI services available now?',
-    answer:
-      'Most core services are available now, including websites, web applications, AI chatbots, automation, software development, API integrations, cloud deployment, and support. Some advanced platform features, such as RemuAI Developer APIs, enterprise AI products, and marketplace features, will be clearly marked as Coming Soon.',
-  },
-  {
-    id: 'process',
-    question: 'How does the development process work?',
-    answer:
-      'Every project starts with a consultation to understand your business, goals, and technical requirements. We then plan the solution, design the experience, build the product, test it carefully, deploy it, and provide support after launch.',
-  },
-  {
-    id: 'support',
-    question: 'Do you provide support after launch?',
-    answer:
-      'Yes. RemuAI provides ongoing support, maintenance, improvements, updates, monitoring, and technical assistance so your solution can continue evolving after launch.',
-  },
-  {
-    id: 'contact',
-    question: 'How can I start a project with RemuAI?',
-    answer:
-      'You can contact RemuAI through the website, email, phone, or WhatsApp. We will discuss your requirements, recommend the right solution, and provide a clear proposal before development begins.',
-  },
-];
+] as const;
 
 export default function FAQAccordion() {
-  const [openId, setOpenId] = useState<string | null>('services');
-
   return (
-    <div className="space-y-4">
-      {faqItems.map((item) => {
-        const isOpen = openId === item.id;
-
-        return (
-          <div
-            key={item.id}
-            className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04]"
-          >
-            <button
-              type="button"
-              onClick={() => setOpenId(isOpen ? null : item.id)}
-              className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left"
-              aria-expanded={isOpen}
-            >
-              <span className="text-lg font-semibold text-white">
-                {item.question}
+    <div className="divide-y divide-white/10 border-y border-white/10">
+      {faqs.map((faq, index) => (
+        <details
+          key={faq.question}
+          className="group py-2"
+        >
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-6 rounded-xl px-2 py-6 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 [&::-webkit-details-marker]:hidden">
+            <span className="flex items-start gap-5">
+              <span className="mt-1 text-xs font-black tracking-[0.18em] text-stone-600">
+                0{index + 1}
               </span>
 
-              <ChevronDown
-                className={`h-5 w-5 shrink-0 text-violet-300 transition-transform ${
-                  isOpen ? 'rotate-180' : ''
-                }`}
-              />
-            </button>
+              <span className="text-lg font-black text-white sm:text-xl">
+                {faq.question}
+              </span>
+            </span>
 
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                >
-                  <p className="px-6 pb-6 leading-7 text-gray-400">
-                    {item.answer}
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <span
+              className="relative h-5 w-5 shrink-0 text-violet-300"
+              aria-hidden="true"
+            >
+              <span className="absolute left-0 top-1/2 h-0.5 w-5 -translate-y-1/2 bg-current" />
+
+              <span className="absolute left-1/2 top-0 h-5 w-0.5 -translate-x-1/2 bg-current transition-transform group-open:rotate-90 group-open:opacity-0" />
+            </span>
+          </summary>
+
+          <div className="pb-7 pl-11 pr-8 text-base leading-8 text-stone-400 sm:pl-14">
+            {faq.answer}
           </div>
-        );
-      })}
+        </details>
+      ))}
     </div>
   );
 }

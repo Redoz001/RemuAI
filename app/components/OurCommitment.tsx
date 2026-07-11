@@ -94,4 +94,4 @@ export default function OurCommitment() {
       </div>
     </section>
   );
-}
+}5
