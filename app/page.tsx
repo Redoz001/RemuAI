@@ -124,23 +124,19 @@ export default function Home() {
       className="relative min-h-screen overflow-hidden bg-black text-white"
     >
 
-        {/* ================= BACKGROUND SYSTEM ================= */}
+    {/* ================= BACKGROUND SYSTEM ================= */}
 
 <div
   aria-hidden="true"
   className="pointer-events-none fixed inset-0 z-0"
 >
-  <img
-    src="/remuai-hero-bg.png"
-    alt=""
-    className="absolute inset-0 h-full w-full object-cover object-center opacity-75"
-  />
+  <div className="absolute inset-0 bg-[#080808]" />
 
-  <div className="absolute inset-0 bg-black/25" />
+  <div className="absolute left-[-10%] top-[10%] h-[500px] w-[500px] rounded-full bg-violet-900/10 blur-[160px]" />
 
-  <div className="absolute inset-0 grid-bg opacity-15" />
+  <div className="absolute bottom-[-10%] right-[-5%] h-[600px] w-[600px] rounded-full bg-blue-950/10 blur-[180px]" />
 
-  <div className="absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-violet-600/20 blur-[140px]" />
+  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/50" />
 </div>
 
       {/* Noise overlay */}
