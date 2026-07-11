@@ -256,7 +256,6 @@ export default function Home() {
           )}
         </AnimatePresence>
       </nav>
-
     {/* ================= HERO ================= */}
 
 <section
@@ -355,6 +354,7 @@ export default function Home() {
       </div>
 
     </motion.div>  
+    
 
       {/* ================= RIGHT ================= */}
 
