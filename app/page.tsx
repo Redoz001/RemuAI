@@ -85,9 +85,9 @@ const heroCapabilities = [
 ];
 
 const trustSignals = [
-  "AI-First Development",
+  "Solutions Built Around You",
   "Worldwide Remote Services",
-  "Cloud-Ready Architecture",
+  "Modern Scalable Technology",
   "Long-Term Technical Support",
 ];
 
