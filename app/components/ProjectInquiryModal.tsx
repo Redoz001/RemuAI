@@ -14,26 +14,25 @@ import {
   X,
 } from "lucide-react";
 
-import {
-  createClient,
-} from "@supabase/supabase-js";
+import { createClient } from "@supabase/supabase-js";
 
 type ProjectInquiryModalProps = {
   open: boolean;
   onClose: () => void;
 };
 
-type FeedbackState = {
-  type: "success" | "error";
-  message: string;
-} | null;
+type FeedbackState =
+  | {
+      type: "success" | "error";
+      message: string;
+    }
+  | null;
 
 export default function ProjectInquiryModal({
   open,
   onClose,
 }: ProjectInquiryModalProps) {
-  const dialogRef =
-    useRef<HTMLDialogElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const [isSubmitting, setIsSubmitting] =
     useState(false);
@@ -50,7 +49,9 @@ export default function ProjectInquiryModal({
 
     if (open && !dialog.open) {
       dialog.showModal();
-    } else if (!open && dialog.open) {
+    }
+
+    if (!open && dialog.open) {
       dialog.close();
     }
   }, [open]);
@@ -63,21 +64,33 @@ export default function ProjectInquiryModal({
     const form = event.currentTarget;
     const data = new FormData(form);
 
-    const name =
-      String(data.get("name") ?? "").trim();
+    const name = String(
+      data.get("name") ?? "",
+    ).trim();
 
-    const email =
-      String(data.get("email") ?? "").trim();
+    const email = String(
+      data.get("email") ?? "",
+    ).trim();
 
-    const organisation =
-      String(
-        data.get("organisation") ?? "",
-      ).trim();
+    const organisation = String(
+      data.get("organisation") ?? "",
+    ).trim();
 
-    const challenge =
-      String(
-        data.get("challenge") ?? "",
-      ).trim();
+    const phone = String(
+      data.get("phone") ?? "",
+    ).trim();
+
+    const service = String(
+      data.get("service") ?? "",
+    ).trim();
+
+    const budget = String(
+      data.get("budget") ?? "",
+    ).trim();
+
+    const challenge = String(
+      data.get("challenge") ?? "",
+    ).trim();
 
     setFeedback(null);
     setIsSubmitting(true);
@@ -102,17 +115,18 @@ export default function ProjectInquiryModal({
       );
 
       const { error } = await supabase
-  .from("project_inquiries")
-  .insert({
-    full_name: name,
-    company: organisation || "Not provided",
-    email,
-    phone: "Not provided",
-    service: "General enquiry",
-    budget: "Not specified",
-    description: challenge,
-    status: "new",
-  });
+        .from("project_inquiries")
+        .insert({
+          full_name: name,
+          company:
+            organisation || "Not provided",
+          email,
+          phone: phone || "Not provided",
+          service,
+          budget: budget || "Not specified",
+          description: challenge,
+          status: "new",
+        });
 
       if (error) {
         console.error(
@@ -139,7 +153,7 @@ export default function ProjectInquiryModal({
       setFeedback({
         type: "error",
         message:
-          "We could not submit your enquiry. Please check your connection and try again.",
+          "We could not submit your enquiry. Please check your details and try again.",
       });
     } finally {
       setIsSubmitting(false);
@@ -240,7 +254,26 @@ export default function ProjectInquiryModal({
           />
         </label>
 
-        <label className="grid gap-2 text-sm font-semibold text-stone-200 sm:col-span-2">
+        <label className="grid gap-2 text-sm font-semibold text-stone-200">
+          <span>
+            Phone{" "}
+            <span className="font-normal text-stone-500">
+              (optional)
+            </span>
+          </span>
+
+          <input
+            name="phone"
+            type="tel"
+            maxLength={30}
+            autoComplete="tel"
+            disabled={isSubmitting}
+            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20 disabled:cursor-not-allowed disabled:opacity-60"
+            placeholder="+971 50 123 4567"
+          />
+        </label>
+
+        <label className="grid gap-2 text-sm font-semibold text-stone-200">
           <span>
             Organisation{" "}
             <span className="font-normal text-stone-500">
@@ -256,6 +289,110 @@ export default function ProjectInquiryModal({
             className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20 disabled:cursor-not-allowed disabled:opacity-60"
             placeholder="Company or organisation"
           />
+        </label>
+
+        <label className="grid gap-2 text-sm font-semibold text-stone-200 sm:col-span-2">
+          Service required
+
+          <select
+            name="service"
+            required
+            defaultValue=""
+            disabled={isSubmitting}
+            className="rounded-xl border border-white/10 bg-[#141414] px-4 py-3 text-white outline-none focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <option value="" disabled>
+              Select a service
+            </option>
+
+            <option value="Custom software">
+              Custom software
+            </option>
+
+            <option value="Website or web application">
+              Website or web application
+            </option>
+
+            <option value="Business automation">
+              Business automation
+            </option>
+
+            <option value="AI chatbot or AI agent">
+              AI chatbot or AI agent
+            </option>
+
+            <option value="API integration">
+              API integration
+            </option>
+
+            <option value="Cloud solution">
+              Cloud solution
+            </option>
+
+            <option value="Cybersecurity">
+              Cybersecurity
+            </option>
+
+            <option value="Enterprise software">
+              Enterprise software
+            </option>
+
+            <option value="ReuNexus">
+              ReuNexus
+            </option>
+
+            <option value="Maintenance and support">
+              Maintenance and support
+            </option>
+
+            <option value="Digital transformation consulting">
+              Digital transformation consulting
+            </option>
+
+            <option value="Not sure yet">
+              Not sure yet
+            </option>
+          </select>
+        </label>
+
+        <label className="grid gap-2 text-sm font-semibold text-stone-200 sm:col-span-2">
+          <span>
+            Estimated project budget{" "}
+            <span className="font-normal text-stone-500">
+              (optional)
+            </span>
+          </span>
+
+          <select
+            name="budget"
+            defaultValue=""
+            disabled={isSubmitting}
+            className="rounded-xl border border-white/10 bg-[#141414] px-4 py-3 text-white outline-none focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <option value="">
+              Select a budget range
+            </option>
+
+            <option value="Not sure yet">
+              Not sure yet
+            </option>
+
+            <option value="AED 5,000 - 15,000">
+              AED 5,000 – 15,000
+            </option>
+
+            <option value="AED 15,000 - 50,000">
+              AED 15,000 – 50,000
+            </option>
+
+            <option value="AED 50,000 - 150,000">
+              AED 50,000 – 150,000
+            </option>
+
+            <option value="Above AED 150,000">
+              Above AED 150,000
+            </option>
+          </select>
         </label>
 
         <label className="grid gap-2 text-sm font-semibold text-stone-200 sm:col-span-2">
@@ -276,7 +413,7 @@ export default function ProjectInquiryModal({
         {feedback && (
           <div
             aria-live="polite"
-            className={`sm:col-span-2 flex items-start gap-3 rounded-xl border px-4 py-3 text-sm leading-6 ${
+            className={`flex items-start gap-3 rounded-xl border px-4 py-3 text-sm leading-6 sm:col-span-2 ${
               feedback.type === "success"
                 ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-200"
                 : "border-red-400/20 bg-red-400/10 text-red-200"
