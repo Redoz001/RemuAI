@@ -4,22 +4,29 @@ import {
   type FormEvent,
   useEffect,
   useRef,
+  useState,
 } from "react";
 
 import {
   ArrowRight,
-  Mail,
+  CheckCircle2,
+  LoaderCircle,
   X,
 } from "lucide-react";
 
 import {
-  COMPANY,
-} from "../lib/site-content";
+  createClient,
+} from "@supabase/supabase-js";
 
 type ProjectInquiryModalProps = {
   open: boolean;
   onClose: () => void;
 };
+
+type FeedbackState = {
+  type: "success" | "error";
+  message: string;
+} | null;
 
 export default function ProjectInquiryModal({
   open,
@@ -28,9 +35,14 @@ export default function ProjectInquiryModal({
   const dialogRef =
     useRef<HTMLDialogElement>(null);
 
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
+
+  const [feedback, setFeedback] =
+    useState<FeedbackState>(null);
+
   useEffect(() => {
-    const dialog =
-      dialogRef.current;
+    const dialog = dialogRef.current;
 
     if (!dialog) {
       return;
@@ -43,13 +55,13 @@ export default function ProjectInquiryModal({
     }
   }, [open]);
 
-  const submitInquiry = (
+  const submitInquiry = async (
     event: FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
 
-    const data =
-      new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const data = new FormData(form);
 
     const name =
       String(data.get("name") ?? "").trim();
@@ -67,34 +79,76 @@ export default function ProjectInquiryModal({
         data.get("challenge") ?? "",
       ).trim();
 
-    const subject =
-      encodeURIComponent(
-        `Project enquiry from ${
-          name ||
-          "a RemuAI website visitor"
-        }`,
+    setFeedback(null);
+    setIsSubmitting(true);
+
+    try {
+      const supabaseUrl =
+        process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+      const supabaseKey =
+        process.env
+          .NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+      if (!supabaseUrl || !supabaseKey) {
+        throw new Error(
+          "Supabase environment variables are missing.",
+        );
+      }
+
+      const supabase = createClient(
+        supabaseUrl,
+        supabaseKey,
       );
 
-    const body =
-      encodeURIComponent(
-        [
-          `Name: ${name}`,
-          `Email: ${email}`,
-          `Organisation: ${
-            organisation ||
-            "Not provided"
-          }`,
-          "",
-          "Challenge or opportunity:",
-          challenge,
-        ].join("\n"),
+      const { error } = await supabase
+        .from("project_inquiries")
+        .insert({
+          full_name: name,
+          company: organisation || null,
+          email,
+          description: challenge,
+          status: "new",
+        });
+
+      if (error) {
+        console.error(
+          "Supabase inquiry error:",
+          error,
+        );
+
+        throw new Error(error.message);
+      }
+
+      form.reset();
+
+      setFeedback({
+        type: "success",
+        message:
+          "Your enquiry has been submitted successfully. RemuAI will review it shortly.",
+      });
+    } catch (error) {
+      console.error(
+        "Project enquiry submission failed:",
+        error,
       );
 
-    window.location.href =
-      `mailto:${COMPANY.email}` +
-      `?subject=${subject}` +
-      `&body=${body}`;
+      setFeedback({
+        type: "error",
+        message:
+          "We could not submit your enquiry. Please check your connection and try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
+  const closeModal = () => {
+    if (isSubmitting) {
+      return;
+    }
+
+    setFeedback(null);
     onClose();
   };
 
@@ -103,7 +157,7 @@ export default function ProjectInquiryModal({
       ref={dialogRef}
       onCancel={(event) => {
         event.preventDefault();
-        onClose();
+        closeModal();
       }}
       onClose={onClose}
       className="m-auto w-[min(92vw,680px)] rounded-[30px] border border-white/10 bg-[#0c0c0c] p-0 text-white shadow-[0_40px_160px_rgba(0,0,0,0.7)] backdrop:bg-black/70 backdrop:backdrop-blur-sm"
@@ -126,8 +180,9 @@ export default function ProjectInquiryModal({
 
           <button
             type="button"
-            onClick={onClose}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 transition hover:bg-white/[0.08] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
+            onClick={closeModal}
+            disabled={isSubmitting}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 transition hover:bg-white/[0.08] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <X
               className="h-5 w-5"
@@ -141,11 +196,10 @@ export default function ProjectInquiryModal({
         </div>
 
         <p className="mt-4 max-w-xl leading-7 text-stone-400">
-          A short description is enough.
-          Submitting opens your email
-          application with the details
-          prepared for review before you
-          send them.
+          Describe the business challenge,
+          workflow, product idea, or system you
+          want to improve. Your enquiry will be
+          securely submitted to RemuAI.
         </p>
       </div>
 
@@ -159,8 +213,11 @@ export default function ProjectInquiryModal({
           <input
             name="name"
             required
+            minLength={2}
+            maxLength={100}
             autoComplete="name"
-            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20"
+            disabled={isSubmitting}
+            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20 disabled:cursor-not-allowed disabled:opacity-60"
             placeholder="Your name"
           />
         </label>
@@ -172,22 +229,28 @@ export default function ProjectInquiryModal({
             name="email"
             required
             type="email"
+            maxLength={254}
             autoComplete="email"
-            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20"
+            disabled={isSubmitting}
+            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20 disabled:cursor-not-allowed disabled:opacity-60"
             placeholder="you@company.com"
           />
         </label>
 
         <label className="grid gap-2 text-sm font-semibold text-stone-200 sm:col-span-2">
-          Organisation{" "}
-          <span className="font-normal text-stone-500">
-            (optional)
+          <span>
+            Organisation{" "}
+            <span className="font-normal text-stone-500">
+              (optional)
+            </span>
           </span>
 
           <input
             name="organisation"
+            maxLength={150}
             autoComplete="organization"
-            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20"
+            disabled={isSubmitting}
+            className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20 disabled:cursor-not-allowed disabled:opacity-60"
             placeholder="Company or organisation"
           />
         </label>
@@ -198,35 +261,60 @@ export default function ProjectInquiryModal({
           <textarea
             name="challenge"
             required
+            minLength={10}
+            maxLength={5000}
             rows={6}
-            className="resize-y rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20"
+            disabled={isSubmitting}
+            className="resize-y rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white outline-none placeholder:text-stone-600 focus:border-violet-400/60 focus:ring-2 focus:ring-violet-400/20 disabled:cursor-not-allowed disabled:opacity-60"
             placeholder="Describe the workflow, product idea, customer problem, system, or decision you want to improve."
           />
         </label>
 
-        <div className="flex flex-col-reverse gap-3 pt-2 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
-          <a
-            href={`mailto:${COMPANY.email}`}
-            className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-stone-400 transition hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
+        {feedback && (
+          <div
+            aria-live="polite"
+            className={`sm:col-span-2 flex items-start gap-3 rounded-xl border px-4 py-3 text-sm leading-6 ${
+              feedback.type === "success"
+                ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-200"
+                : "border-red-400/20 bg-red-400/10 text-red-200"
+            }`}
           >
-            <Mail
-              className="h-4 w-4"
-              aria-hidden="true"
-            />
+            {feedback.type === "success" && (
+              <CheckCircle2
+                className="mt-0.5 h-5 w-5 shrink-0"
+                aria-hidden="true"
+              />
+            )}
 
-            Email directly
-          </a>
+            <span>{feedback.message}</span>
+          </div>
+        )}
 
+        <div className="flex justify-end pt-2 sm:col-span-2">
           <button
             type="submit"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 font-black text-black transition hover:bg-stone-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300"
+            disabled={isSubmitting}
+            className="inline-flex min-w-44 items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 font-black text-black transition hover:bg-stone-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Prepare Email
+            {isSubmitting ? (
+              <>
+                <LoaderCircle
+                  className="h-4 w-4 animate-spin"
+                  aria-hidden="true"
+                />
 
-            <ArrowRight
-              className="h-4 w-4"
-              aria-hidden="true"
-            />
+                Submitting...
+              </>
+            ) : (
+              <>
+                Submit Enquiry
+
+                <ArrowRight
+                  className="h-4 w-4"
+                  aria-hidden="true"
+                />
+              </>
+            )}
           </button>
         </div>
       </form>
