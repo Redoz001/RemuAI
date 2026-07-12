@@ -102,14 +102,17 @@ export default function ProjectInquiryModal({
       );
 
       const { error } = await supabase
-        .from("project_inquiries")
-        .insert({
-          full_name: name,
-          company: organisation || null,
-          email,
-          description: challenge,
-          status: "new",
-        });
+  .from("project_inquiries")
+  .insert({
+    full_name: name,
+    company: organisation || "Not provided",
+    email,
+    phone: "Not provided",
+    service: "General enquiry",
+    budget: "Not specified",
+    description: challenge,
+    status: "new",
+  });
 
       if (error) {
         console.error(
